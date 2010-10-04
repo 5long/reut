@@ -1,8 +1,8 @@
 var util = require('./util')
-  , assert = require('assert')
-  , nativeAsserts = ("ok equal notEqual deepEqual notDeepEqual "
-      + "strictEqual notStrictEqual throws doesNotThrow").split(" ")
-
+  , assert = require('./assert')
+  , supportedAsserts = ("ok equal notEqual deepEqual notDeepEqual"
+      + " strictEqual notStrictEqual throws doesNotThrow"
+      + " instanceOf typeOf").split(" ")
 
 function TestCase(desc, action) {
   if (arguments.length < 2) throw TypeError("Wrong number of arguments")
@@ -10,6 +10,21 @@ function TestCase(desc, action) {
   this._action = action
   this._results = []
 }
+
+supportedAsserts.forEach(function(name) {
+  if (!(name in assert)) return
+  this[name] = function() {
+    var e, posForMsg = assert[name].length - 1
+      , msg = arguments[posForMsg]
+    try {
+      assert[name].apply(assert, arguments)
+      this._results.push({passed: true, desc: msg})
+    } catch (e) {
+      if (!(e instanceof assert.AssertionError)) this._doEnd(e)
+      this._results.push({passed: false, desc: msg, error: e})
+    }
+  }
+}, TestCase.prototype)
 
 util.merge(TestCase.prototype, {
   /*
@@ -39,20 +54,5 @@ util.merge(TestCase.prototype, {
     }
   }
 })
-
-nativeAsserts.forEach(function(name) {
-  if (!(name in assert)) return
-  this[name] = function() {
-    var e, posForMsg = assert[name].length - 1
-      , msg = arguments[posForMsg]
-    try {
-      assert[name].apply(assert, arguments)
-      this._results.push({passed: true, desc: msg})
-    } catch (e) {
-      if (!(e instanceof assert.AssertionError)) this._doEnd(e)
-      this._results.push({passed: false, desc: msg, error: e})
-    }
-  }
-}, TestCase.prototype)
 
 module.exports = TestCase

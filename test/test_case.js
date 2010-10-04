@@ -8,11 +8,21 @@ var assert = require("assert")
     }
 
 var theCase = new TestCase("a simple one", function(test) {
+  assertFunc(test.typeOf)
+  assertFunc(test.instanceOf)
+  assertFunc(test.ok)
+  assertFunc(test.strictEqual)
+  assertFunc(test.notDeepEqual)
+
   test.ok(true, msg.passed)
-  test.ok(0, msg.failed)
+  test.typeOf(0, "string", msg.failed)
   test.equal("foo", "bar")
   test.end()
 })
+
+function assertFunc(obj) {
+  assert.equal(typeof obj, "function")
+}
 
 theCase.run(function(err, report) {
   h.remainingCallbacks--
