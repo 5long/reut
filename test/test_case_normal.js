@@ -24,7 +24,6 @@ var selfTest = new TestCase("a simple one", function(test) {
 })
 
 TestCase.supportedAsserts.forEach(function(name) {
-  if (!(name in assert)) return
   assertFunc(this[name])
 }, TestCase.prototype)
 
