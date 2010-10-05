@@ -1,5 +1,7 @@
+TEST_FILES=`find test -name '*.js'`
+
 test-all:
-	@@find test -name '*.js' -print0 | xargs -0 env NODE_PATH=./src node
+	@@for FILE in $(TEST_FILES); do node $$FILE ; done
 
 link:
 	ln -s `pwd`/src ~/.node_libraries/reut
