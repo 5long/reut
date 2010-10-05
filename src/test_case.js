@@ -1,5 +1,6 @@
 var util = require('./util')
   , assert = require('./assert')
+  , EventEmitter = require('events').EventEmitter
   , supportedAsserts = ("ok equal notEqual deepEqual notDeepEqual"
       + " strictEqual notStrictEqual throws doesNotThrow"
       + " instanceOf typeOf").split(" ")
@@ -10,6 +11,9 @@ function TestCase(desc, action) {
   this._action = action
   this._results = []
 }
+
+TestCase.prototype = Object.create(EventEmitter.prototype)
+TestCase.supportedAsserts = supportedAsserts
 
 supportedAsserts.forEach(function(name) {
   if (!(name in assert)) return
@@ -57,6 +61,7 @@ util.merge(TestCase.prototype, {
     var result = {passed: passed, desc: msg}
     if (error) result.error = error
     this._results.push(result)
+    this.emit("assert", result)
   }
 })
 
