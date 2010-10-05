@@ -18,10 +18,10 @@ supportedAsserts.forEach(function(name) {
       , msg = arguments[posForMsg]
     try {
       assert[name].apply(assert, arguments)
-      this._results.push({passed: true, desc: msg})
+      this._log(true, msg)
     } catch (e) {
       if (!(e instanceof assert.AssertionError)) this._doEnd(e)
-      this._results.push({passed: false, desc: msg, error: e})
+      this._log(false, msg, e)
     }
   }
 }, TestCase.prototype)
@@ -52,6 +52,11 @@ util.merge(TestCase.prototype, {
     , passed: results.filter(function(r) {return r.passed })
     , failed: results.filter(function(r) {return !r.passed })
     }
+  }
+, _log: function(passed, msg, error) {
+    var result = {passed: passed, desc: msg}
+    if (error) result.error = error
+    this._results.push(result)
   }
 })
 
