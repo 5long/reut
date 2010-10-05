@@ -19,7 +19,11 @@ var selfTest = new TestCase("a simple one", function(test) {
   })
   test.instanceOf(test, EventEmitter, msg.passed)
   test.typeOf(0, "string", msg.failed)
+  test.strictEqual(selfTest, test)
   test.equal("foo", "bar")
+  test.throws(function() {
+    return somethingUndefined
+  }, ReferenceError)
   test.end()
 })
 
@@ -33,8 +37,8 @@ selfTest.run(function(err, report) {
     , failed = report.failed[0]
     , withOutMsg = report.failed[1]
   assert.ifError(err)
-  assert.equal(report.all.length, 3, "3 assertions")
-  assert.equal(report.passed.length, 1, "1 passed")
+  assert.equal(report.all.length, 5, "5 assertions")
+  assert.equal(report.passed.length, 3, "3 passed")
   assert.equal(report.failed.length, 2, "2 failed")
   assert.equal(passed.desc, msg.passed, 'same message')
   assert.equal(failed.desc, msg.failed, 'same message')
