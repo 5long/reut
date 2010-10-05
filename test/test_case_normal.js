@@ -1,7 +1,7 @@
 var assert = require("assert")
   , TestCase = require("reut").TestCase
   , holder = {remainingCallbacks: 1}
-  , EventEmitter = require('events').EventEmitter
+  , EventEmitter = require("events").EventEmitter
   , h = holder
   , resultsByEvent = []
   , msg = {
@@ -40,9 +40,9 @@ selfTest.run(function(err, report) {
   assert.equal(report.all.length, 5, "5 assertions")
   assert.equal(report.passed.length, 3, "3 passed")
   assert.equal(report.failed.length, 2, "2 failed")
-  assert.equal(passed.desc, msg.passed, 'same message')
-  assert.equal(failed.desc, msg.failed, 'same message')
-  assert.equal(typeof withOutMsg.desc, "undefined", 'no message')
+  assert.equal(passed.desc, msg.passed, "same message")
+  assert.equal(failed.desc, msg.failed, "same message")
+  assert.equal(typeof withOutMsg.desc, "undefined", "no message")
   assert.deepEqual(resultsByEvent, report.all)
 })
 

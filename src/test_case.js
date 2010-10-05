@@ -1,6 +1,6 @@
-var util = require('./util')
-  , assert = require('./assert')
-  , EventEmitter = require('events').EventEmitter
+var util = require("./util")
+  , assert = require("./assert")
+  , EventEmitter = require("events").EventEmitter
   , supportedAsserts = ("ok equal notEqual deepEqual notDeepEqual"
       + " strictEqual notStrictEqual throws doesNotThrow"
       + " instanceOf typeOf").split(" ")

@@ -1,4 +1,4 @@
-var assert = require('assert')
+var assert = require("assert")
   , fail = assert.fail
   , extendedAssert = Object.create(assert)
   , ext = extendedAssert
