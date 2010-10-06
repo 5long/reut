@@ -4,9 +4,7 @@ var makeArray = Function.prototype.call.bind(Array.prototype.slice)
   , sys = require("sys")
 
 var util = {
-  makeArray: function(arrayLike) {
-    return Array.prototype.slice.call(arrayLike)
-  }
+  makeArray: makeArray
 , merge: function() {
     if (!arguments.length) throw TypeError("Destination object needed")
     var sources = makeArray(arguments)
