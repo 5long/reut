@@ -1,6 +1,6 @@
 var assert = require("assert")
   , TestCase = require("reut").TestCase
-  , holder = {remainingCallbacks: 1}
+  , holder = {remainingCallbacks: 2}
   , EventEmitter = require("events").EventEmitter
   , h = holder
   , resultsByEvent = []
@@ -27,6 +27,10 @@ var selfTest = new TestCase("a simple one", function(test) {
   test.end()
 })
 
+var asyncTest = new TestCase("an async one", function(test) {
+  process.nextTick(test.end)
+})
+
 TestCase.supportedAsserts.forEach(function(name) {
   assertFunc(this[name])
 }, TestCase.prototype)
@@ -44,6 +48,10 @@ selfTest.run(function(err, report) {
   assert.equal(failed.desc, msg.failed, "same message")
   assert.equal(typeof withOutMsg.desc, "undefined", "no message")
   assert.deepEqual(resultsByEvent, report.all)
+})
+
+asyncTest.run(function() {
+  h.remainingCallbacks--
 })
 
 setTimeout(function() {

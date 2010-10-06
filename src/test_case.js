@@ -10,6 +10,7 @@ function TestCase(desc, action) {
   this.desc = desc
   this._action = action
   this._results = []
+  this.end = this.end.bind(this)
 }
 
 TestCase.prototype = Object.create(EventEmitter.prototype)
