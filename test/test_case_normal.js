@@ -1,5 +1,5 @@
 var assert = require("assert")
-  , TestCase = require("reut").TestCase
+  , TestCase = require("../src").TestCase
   , holder = {remainingCallbacks: 2}
   , EventEmitter = require("events").EventEmitter
   , h = holder

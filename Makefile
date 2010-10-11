@@ -1,7 +1,7 @@
 TEST_FILES=`find test -name '*.js'`
 NODE_PATH_ROOT=$(HOME)/.node_libraries
 
-test-all: link
+test-all:
 	@@for FILE in $(TEST_FILES); do node $$FILE ; done
 
 link: unlink
