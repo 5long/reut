@@ -11,7 +11,7 @@ ext.typeOf = function(value, expected, msg) {
 
 ext.instanceOf = function(instance, konstructor, msg) {
   if (!(instance instanceof konstructor)) {
-    fail(instance, konstructor, msg, ext.instanceOf)
+    fail(instance, konstructor, msg, "instanceof", ext.instanceOf)
   }
 }
 
