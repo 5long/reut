@@ -1,32 +1,33 @@
 var assert = require("assert")
+  , util = require("./util")
   , fail = assert.fail
   , extendedAssert = Object.create(assert)
-  , ext = extendedAssert
+  , eA = extendedAssert
 
-ext.typeOf = function(value, expected, msg) {
-  if (typeof value != expected) {
-    fail(value, expected, msg, "typeof", ext.typeOf)
+module.exports = util.merge(eA, {
+  typeOf: function(value, expected, msg) {
+    if (typeof value != expected) {
+      fail(value, expected, msg, "typeof", eA.typeOf)
+    }
   }
-}
 
-ext.instanceOf = function(instance, konstructor, msg) {
-  if (!(instance instanceof konstructor)) {
-    fail(instance, konstructor, msg, "instanceof", ext.instanceOf)
+, instanceOf: function(instance, konstructor, msg) {
+    if (!(instance instanceof konstructor)) {
+      fail(instance, konstructor, msg, "instanceof", eA.instanceOf)
+    }
   }
-}
 
-ext.implement = function(instance, interface, msg) {
-  var proto = interface.prototype
-    , props = Object.getOwnPropertyNames(proto)
-    , methods = props.filter(function(method) {
-        return typeof proto[method] == "function"
-      })
-    , notImplemented = methods.filter(function(method) {
-        return typeof instance[method] != "function"
-      })
-  if (notImplemented.length) {
-    fail(instance, interface, msg, "implements", ext.implement)
+, implement: function(instance, interface, msg) {
+    var proto = interface.prototype
+      , props = Object.getOwnPropertyNames(proto)
+      , methods = props.filter(function(method) {
+          return typeof this[method] == "function"
+        }, proto)
+      , notImplemented = methods.filter(function(method) {
+          return typeof this[method] != "function"
+        }, instance)
+    if (notImplemented.length) {
+      fail(instance, interface, msg, "implements", eA.implement)
+    }
   }
-}
-
-module.exports = extendedAssert
+})

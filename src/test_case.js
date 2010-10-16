@@ -17,7 +17,7 @@ TestCase.supportedAsserts = supportedAsserts
 
 supportedAsserts.forEach(function(name) {
   if (!(name in assert)) return
-  this[name] = function() {
+  TestCase.prototype[name] = function() {
     var e, posForMsg = assert[name].length - 1
       , msg = arguments[posForMsg]
     try {
@@ -28,7 +28,7 @@ supportedAsserts.forEach(function(name) {
       this._log(false, msg, e)
     }
   }
-}, TestCase.prototype)
+})
 
 util.merge(TestCase.prototype, {
   /*

@@ -3,7 +3,7 @@ var TestSuite = require("./test_suite")
   , util = require("./util")
   , suites = []
 
-var runner = {
+var runner = module.exports = {
   suite: function(desc) {
     suites.push(new TestSuite(desc))
   }
@@ -21,5 +21,3 @@ process.nextTick(function() {
   })
   util.serial(actions)
 })
-
-module.exports = runner

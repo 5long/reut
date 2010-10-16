@@ -2,7 +2,7 @@ var reut = require('../src')
   , TestSuite = reut.TestSuite
   , TestCase = reut.TestCase
   , assert = require('assert')
-  , holder = {status: 1}
+  , remainingCallbacks = 1
   , testCaseDesc = "a test case"
 
 var aSuite = new TestSuite("no desc")
@@ -15,14 +15,14 @@ aSuite.add(new TestCase(testCaseDesc, function(test) {
 
 aSuite.run(function(err, report) {
   assert.ifError(err)
-  holder.status = 0
+  remainingCallbacks--
   assert.equal(report.length, 1)
   assert.equal(report[0].desc, testCaseDesc)
   assert.equal(report[0].result.passed.length, 1)
 })
 
-assert.ok(holder.status)
+assert.ok(remainingCallbacks)
 
 setTimeout(function() {
-  process.exit(holder.status)
+  process.exit(remainingCallbacks)
 }, 20)

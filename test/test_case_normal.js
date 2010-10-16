@@ -1,9 +1,8 @@
 var assert = require("assert")
   , TestCase = require("../src").TestCase
-  , holder = {remainingCallbacks: 2}
   , EventEmitter = require("events").EventEmitter
-  , h = holder
   , resultsByEvent = []
+  , remainingCallbacks = 2
   , msg = {
       passed: "This should pass"
     , failed: "This should fail"
@@ -36,7 +35,7 @@ TestCase.supportedAsserts.forEach(function(name) {
 }, TestCase.prototype)
 
 selfTest.run(function(err, report) {
-  h.remainingCallbacks--
+  remainingCallbacks--
   var passed = report.passed[0]
     , failed = report.failed[0]
     , withOutMsg = report.failed[1]
@@ -51,9 +50,9 @@ selfTest.run(function(err, report) {
 })
 
 asyncTest.run(function() {
-  h.remainingCallbacks--
+  remainingCallbacks--
 })
 
 setTimeout(function() {
-  process.exit(h.remainingCallbacks)
+  process.exit(remainingCallbacks)
 }, 10)

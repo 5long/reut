@@ -3,7 +3,7 @@ var makeArray = Function.prototype.call.bind(Array.prototype.slice)
   , assert = require("assert")
   , sys = require("sys")
 
-var util = {
+module.exports = {
   makeArray: makeArray
 , merge: function() {
     if (!arguments.length) throw TypeError("Destination object needed")
@@ -32,7 +32,7 @@ var util = {
     })
     doChain(actions, [])
   }
-, noop: new Function()
+, noop: noop
 }
 
 function doChain(actions, initial) {
@@ -48,5 +48,3 @@ function doChain(actions, initial) {
 
   action.apply(innerCallback, initial)
 }
-
-module.exports = util
