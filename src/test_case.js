@@ -12,8 +12,7 @@ function TestCase(desc, action) {
   this._results = []
   this.end = this.end.bind(this)
 }
-
-TestCase.prototype = Object.create(EventEmitter.prototype)
+util.inherits(TestCase, EventEmitter)
 TestCase.supportedAsserts = supportedAsserts
 
 supportedAsserts.forEach(function(name) {

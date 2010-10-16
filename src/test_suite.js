@@ -5,8 +5,7 @@ function TestSuite(desc) {
   this.desc = desc
   this._testCases = []
 }
-
-TestSuite.prototype = Object.create(EventEmitter.prototype)
+util.inherits(TestSuite, EventEmitter)
 
 util.merge(TestSuite.prototype, {
   run: function(cb) {
