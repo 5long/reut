@@ -38,8 +38,8 @@ util.merge(TestCase.prototype, {
   run: function(cb) {
     var err
     this._callback = cb
-    try {this._action(this)}
-    catch (err) {this._doEnd(Error("Test Fail"))}
+    try {this._action.call(null, this)}
+    catch (err) {this._doEnd(err)}
   }
   /*
    * Explicitly finish test case.
