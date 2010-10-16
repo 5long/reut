@@ -15,4 +15,18 @@ ext.instanceOf = function(instance, konstructor, msg) {
   }
 }
 
+ext.implement = function(instance, interface, msg) {
+  var proto = interface.prototype
+    , props = Object.getOwnPropertyNames(proto)
+    , methods = props.filter(function(method) {
+        return typeof proto[method] == "function"
+      })
+    , notImplemented = methods.filter(function(method) {
+        return typeof instance[method] != "function"
+      })
+  if (notImplemented.length) {
+    fail(instance, interface, msg, "implements", ext.implement)
+  }
+}
+
 module.exports = extendedAssert

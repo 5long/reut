@@ -19,7 +19,7 @@ var selfTest = new TestCase("a simple one", function(test) {
   })
   test.instanceOf(test, EventEmitter, msg.passed)
   test.typeOf(0, "string", msg.failed)
-  test.strictEqual(selfTest, test)
+  test.implement(test, EventEmitter)
   test.equal("foo", "bar")
   test.throws(function() {
     return somethingUndefined

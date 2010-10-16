@@ -3,7 +3,7 @@ var util = require("./util")
   , EventEmitter = require("events").EventEmitter
   , supportedAsserts = ("ok equal notEqual deepEqual notDeepEqual"
       + " strictEqual notStrictEqual throws doesNotThrow"
-      + " instanceOf typeOf").split(" ")
+      + " instanceOf typeOf implement").split(" ")
 
 function TestCase(desc, action) {
   if (arguments.length < 2) throw TypeError("Wrong number of arguments")
