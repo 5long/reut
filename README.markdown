@@ -12,23 +12,20 @@ _CAUTION:_ barely usable now.
 
 ## Usage
 
-### Install
+### Installation
 
-    $ make link
+    $ npm install reut
 
-### Try
+### Give it a shot
 
-    var TestCase = require("reut").TestCase
-      , assert = require("assert")
-      , hello = new TestCase("say hello", function(test) {
-          test.ok(true, "Ahoi!")
-          test.end()
-        })
-
-    hello.run(function(error, report) {
-      if (!error) console.log("I'm done.")
+    $ cat <<EOF >hello.js
+    var reut = require("reut")
+    reut.suite("Say hello!")
+    reut.test("Chinese", function(test) {
+      test.ok(true, "你好")
+      test.end()
     })
+    EOF
 
-### Uninstall
-
-    $ make unlink
+    $ node hello.js
+    1 assertions, 0 failed.
