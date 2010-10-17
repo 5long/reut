@@ -57,9 +57,10 @@ util.merge(TestCase.prototype, {
     , failed: results.filter(function(r) {return !r.passed })
     }
   }
-, _log: function(passed, msg, error) {
-    var result = {passed: passed, desc: msg}
-    if (error) result.error = error
+, _log: function(passed, msg, err) {
+    var result = err ? err : {message: msg}
+    result.passed = passed
+
     this._results.push(result)
     this.emit("assert", result)
   }
