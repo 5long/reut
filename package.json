@@ -1,0 +1,20 @@
+{ "author": { "name": "Whyme.Lyu"
+            , "email": "5longluna@gmail.com"
+            }
+, "description": "REimplemented Unit Test for node.js"
+, "engines": {"node": ">=0.1.103"}
+, "homepage": "http://github.com/5long/reut"
+, "licenses":
+  [ { "type": "MIT"
+    , "url": "http://github.com/5long/reut/raw/master/LISENSE"
+    }
+  ]
+, "main": "./src"
+, "name": "reut"
+, "repository":
+  { "type": "git"
+  , "url": "http://github.com/5long/reut.git"
+  }
+, "scripts": { "test": "make test-all" }
+, "version": "v0.0.1"
+}
