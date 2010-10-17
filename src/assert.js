@@ -17,17 +17,16 @@ module.exports = util.merge(eA, {
     }
   }
 
-, implement: function(instance, interface, msg) {
-    var proto = interface.prototype
-      , props = Object.getOwnPropertyNames(proto)
-      , methods = props.filter(function(method) {
-          return typeof this[method] == "function"
-        }, proto)
-      , notImplemented = methods.filter(function(method) {
-          return typeof this[method] != "function"
-        }, instance)
-    if (notImplemented.length) {
-      fail(instance, interface, msg, "implements", eA.implement)
+, length: function(arrayLike, length, msg) {
+    if (arrayLike.length != length) {
+      fail(arrayLike, length, msg, ".length ==", eA.length)
     }
   }
+
+, match: function(str, regex, msg) {
+    if (!regex.test(str)) {
+      fail(regex, str, msg, ".test()", eA.match)
+    }
+  }
+
 })

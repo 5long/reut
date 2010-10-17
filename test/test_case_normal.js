@@ -18,8 +18,8 @@ var selfTest = new TestCase("a simple one", function(test) {
   })
   test.instanceOf(test, EventEmitter, msg.passed)
   test.typeOf(0, "string", msg.failed)
-  test.implement(test, EventEmitter)
-  test.equal("foo", "bar")
+  test.length([], 1)
+  test.match("foo", /o+$/)
   test.throws(function() {
     return somethingUndefined
   }, ReferenceError)
