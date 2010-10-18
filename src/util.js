@@ -3,8 +3,10 @@ var makeArray = Function.prototype.call.bind(Array.prototype.slice)
   , assert = require("assert")
   , sys = require("sys")
 
-module.exports = {
+var util = module.exports = {
   makeArray: makeArray
+, isFunc: isFunc
+, defer: defer
 , merge: function() {
     if (!arguments.length) throw TypeError("Destination object needed")
     var sources = makeArray(arguments)
@@ -30,7 +32,7 @@ module.exports = {
       err = err instanceof Error ? err : null
       cb(err, results)
     })
-    doChain(actions, [])
+    defer(null, doChain, [actions, []])
   }
 , noop: noop
 }
@@ -48,3 +50,15 @@ function doChain(actions, initial) {
 
   action.apply(innerCallback, initial)
 }
+
+function defer(context, fn, args) {
+  fn = isFunc(fn) ? fn : context[fn]
+  if (!isFunc(fn.apply)) throw TypeError("Not a callable object")
+  process.nextTick(function() {
+    fn.apply(context, args)
+  })
+}
+
+function isFunc(obj) {
+    return Object.prototype.toString.call(obj) == "[object Function]"
+  }
