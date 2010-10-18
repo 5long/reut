@@ -12,6 +12,7 @@ util.merge(TestSuite.prototype, {
     var thisSuite = this
       , actions = this._testCases.map(function(tc) {
           return function() {
+            thisSuite.emit("testStart", tc)
             tc.run(function(err, result) {
               this(err, {desc: tc.desc, result: result})
             }.bind(this))
