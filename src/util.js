@@ -1,6 +1,5 @@
 var makeArray = Function.prototype.call.bind(Array.prototype.slice)
   , noop = Function()
-  , assert = require("assert")
   , sys = require("sys")
 
 var util = module.exports = {
@@ -21,10 +20,9 @@ var util = module.exports = {
   }
 , serial: function(actions, cb) {
     if (typeof cb == "undefined") cb = noop
-    if (!actions.length) return
     actions = makeArray(actions)
     actions.forEach(function(action) {
-      assert.equal(typeof action.apply, 'function', sys.inspect(action) + " is not callable")
+      if (typeof action != "function") throw TypeError("An action is not callable")
     })
 
     actions.push(function(err) {
@@ -32,20 +30,20 @@ var util = module.exports = {
       err = err instanceof Error ? err : null
       cb(err, results)
     })
-    defer(null, doChain, [actions, []])
+    defer(null, chainIter, [actions, []])
   }
 , noop: noop
 }
 
-function doChain(actions, initial) {
+function chainIter(actions, initial) {
   var action = actions.shift()
   if (!action) return
 
   function innerCallback() {
-    initial.shift()
+    if (initial[0] instanceof Error) initial.shift()
     var recent = makeArray(arguments)
       , passingOn = recent.concat(initial)
-    doChain(actions, passingOn)
+    chainIter(actions, passingOn)
   }
 
   action.apply(innerCallback, initial)
@@ -53,12 +51,12 @@ function doChain(actions, initial) {
 
 function defer(context, fn, args) {
   fn = isFunc(fn) ? fn : context[fn]
-  if (!isFunc(fn.apply)) throw TypeError("Not a callable object")
+  if (!isFunc(fn)) throw TypeError("Not a callable object")
   process.nextTick(function() {
     fn.apply(context, args)
   })
 }
 
 function isFunc(obj) {
-    return Object.prototype.toString.call(obj) == "[object Function]"
-  }
+  return Object.prototype.toString.call(obj) == "[object Function]"
+}
