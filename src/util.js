@@ -18,7 +18,11 @@ var util = module.exports = {
 , inherits: function(klass, super) {
     klass.prototype = Object.create(super.prototype)
   }
-, serial: function(actions, cb) {
+, noop: noop
+}
+
+util.async = {
+  serial: function(actions, cb) {
     if (typeof cb == "undefined") cb = noop
     actions = makeArray(actions)
     actions.forEach(function(action) {
@@ -32,7 +36,6 @@ var util = module.exports = {
     })
     defer(null, chainIter, [actions, []])
   }
-, noop: noop
 }
 
 function chainIter(actions, initial) {

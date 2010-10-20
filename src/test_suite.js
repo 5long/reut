@@ -1,4 +1,5 @@
 var util = require('./util')
+  , async = util.async
   , EventEmitter = require('events').EventEmitter
 
 function TestSuite(desc) {
@@ -18,7 +19,7 @@ util.merge(TestSuite.prototype, {
             }.bind(this))
           }
         })
-    util.serial(actions, cb)
+    async.serial(actions, cb)
   }
 , add: function(testCase) {
     this._testCases.push(testCase)

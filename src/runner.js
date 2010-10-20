@@ -1,6 +1,7 @@
 var TestSuite = require("./test_suite")
   , TestCase = require("./test_case")
   , util = require("./util")
+  , async = util.async
   , sys = require("sys")
   , suites = []
   , pushAll = Function.prototype.apply.bind(Array.prototype.push)
@@ -21,7 +22,7 @@ var runner = module.exports = {
     var actions = suites.map(function(suite) {
       return function() { suite.run(this) }
     })
-    util.serial(actions, cb)
+    async.serial(actions, cb)
   }
 }
 
