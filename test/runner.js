@@ -14,6 +14,8 @@ reut.test("A test", function(test) {
   test.end()
 })
 
+reut.run()
+
 setTimeout(function() {
   process.exit(holder.status)
 }, 20)

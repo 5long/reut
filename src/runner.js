@@ -2,9 +2,7 @@ var TestSuite = require("./test_suite")
   , TestCase = require("./test_case")
   , util = require("./util")
   , async = util.async
-  , sys = require("sys")
   , suites = []
-  , pushAll = Function.prototype.apply.bind(Array.prototype.push)
 
 // TODO Extract the test runner interface.
 var runner = module.exports = {
@@ -24,27 +22,3 @@ var runner = module.exports = {
     }, cb)
   }
 }
-
-process.nextTick(function() {
-  // TODO Extract the following code as a standalone reporter
-  runner.run(function(err, results) {
-    var flatterned = results.reduce(function F(flatterned, result) {
-          return flatterned.concat(
-              result instanceof Array
-            ? result.reduce(F, [])
-            : [result]
-            )
-        }, [])
-      , report = flatterned.reduce(function R(total, result) {
-          pushAll(total.all, result.all)
-          pushAll(total.failed, result.failed)
-          pushAll(total.passed, result.passed)
-          return total
-        }, {all:[], passed:[], failed:[]})
-      , errorMsg = report.failed.map(function(err) {
-          return err.stack || err.message
-        }).join("\n")
-    sys.print(errorMsg)
-    console.log("%d assertions, %d failed.", report.all.length, report.failed.length)
-  })
-})
