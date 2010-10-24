@@ -2,11 +2,19 @@ var reut = require('../src')
   , TestSuite = reut.TestSuite
   , TestCase = reut.TestCase
   , assert = require('assert')
-  , totalCallbacks = 4
+  , totalCallbacks = 5
   , remainingCallbacks = totalCallbacks
   , testCaseDesc = "a test case"
+  , fakeReporter = {
+      watch: function() {
+        process.nextTick(function() {
+          remainingCallbacks--
+        })
+      }
+    }
 
 var aSuite = new TestSuite("no desc")
+aSuite.reportTo(fakeReporter)
 aSuite.add(new TestCase(testCaseDesc, function(test) {
   setTimeout(function() {
     test.ok(1, "I'm done")

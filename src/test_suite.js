@@ -24,6 +24,9 @@ util.merge(TestSuite.prototype, {
 , add: function(testCase) {
     this._testCases.push(testCase)
   }
+, reportTo: function(reporter) {
+    reporter.watch(this)
+  }
 })
 
 module.exports = TestSuite
