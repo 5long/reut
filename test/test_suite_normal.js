@@ -24,8 +24,7 @@ aSuite.run(function(err, report) {
   assert.ifError(err)
   remainingCallbacks--
   assert.equal(report.length, 1)
-  assert.equal(report[0].desc, testCaseDesc)
-  assert.equal(report[0].result.passed.length, 1)
+  assert.equal(report[0].passed.length, 1)
 })
 
 assert.equal(remainingCallbacks, totalCallbacks)

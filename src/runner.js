@@ -19,10 +19,9 @@ var runner = module.exports = {
   }
 , run: function(cb) {
     if (typeof cb != "function") cb = util.noop
-    var actions = suites.map(function(suite) {
-      return function() { suite.run(this) }
-    })
-    async.serial(actions, cb)
+    async.map(suites, function(suite) {
+      suite.run(this)
+    }, cb)
   }
 }
 
@@ -37,7 +36,6 @@ process.nextTick(function() {
             )
         }, [])
       , report = flatterned.reduce(function R(total, result) {
-          result = result.result
           pushAll(total.all, result.all)
           pushAll(total.failed, result.failed)
           pushAll(total.passed, result.passed)

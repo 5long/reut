@@ -11,15 +11,10 @@ util.inherits(TestSuite, EventEmitter)
 util.merge(TestSuite.prototype, {
   run: function(cb) {
     var thisSuite = this
-      , actions = this._testCases.map(function(tc) {
-          return function() {
-            thisSuite.emit("testStart", tc)
-            tc.run(function(err, result) {
-              this(err, {desc: tc.desc, result: result})
-            }.bind(this))
-          }
-        })
-    async.serial(actions, cb)
+    async.map(this._testCases, function(tc) {
+      thisSuite.emit("testStart", tc)
+      tc.run(this)
+    }, cb)
   }
 , add: function(testCase) {
     this._testCases.push(testCase)
