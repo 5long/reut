@@ -1,36 +1,24 @@
 var assert = require("assert")
   , TestCase = require("../src").TestCase
-  , EventEmitter = require("events").EventEmitter
   , resultsByEvent = []
+  , fixture = require("./fixture/sample_test_case")
   , remainingCallbacks = 4
-  , msg = {
-      passed: "This should pass"
-    , failed: "This should fail"
-    }
+  , msg = fixture.msg
 
 function assertFunc(obj) {
   assert.equal(typeof obj, "function")
 }
 
-var selfTest = new TestCase("a simple one", function(test) {
-  test.on("assert", function(result) {
-    resultsByEvent.push(result)
-  })
-  test.instanceOf(test, EventEmitter, msg.passed)
-  test.typeOf(0, "string", msg.failed)
-  test.length([], 1)
-  test.match("foo", /o+$/)
-  test.throws(function() {
-    return somethingUndefined
-  }, ReferenceError)
-  test.end()
+var simpleTest = fixture.tc
+simpleTest.on("assert", function(result) {
+  resultsByEvent.push(result)
 })
 
 var asyncTest = new TestCase("an async one", function(test) {
   process.nextTick(test.end)
 })
 
-selfTest.on("end", function() {
+simpleTest.on("end", function() {
   remainingCallbacks--
 })
 
@@ -44,15 +32,15 @@ TestCase.supportedAsserts.forEach(function(name) {
   assertFunc(this[name])
 }, TestCase.prototype)
 
-selfTest.run(function(err, report) {
+simpleTest.run(function(err, report) {
   remainingCallbacks--
   var passed = report.passed[0]
     , failed = report.failed[0]
     , withOutMsg = report.failed[1]
   assert.ifError(err)
-  assert.equal(report.all.length, 5, "5 assertions")
-  assert.equal(report.passed.length, 3, "3 passed")
-  assert.equal(report.failed.length, 2, "2 failed")
+  assert.equal(report.all.length, fixture.num.all)
+  assert.equal(report.passed.length, fixture.num.passed)
+  assert.equal(report.failed.length, fixture.num.failed)
   assert.equal(passed.message, msg.passed, "same message")
   assert.equal(failed.message, msg.failed, "same message")
   assert.ok(failed instanceof assert.AssertionError)
