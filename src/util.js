@@ -36,6 +36,10 @@ util.async = {
     })
     defer(null, chainIter, [actions, []])
   }
+, map: function(array, action, cb) {
+    var array = array.slice()
+    defer(null, mapIter, [array, action, [], cb])
+  }
 }
 
 function chainIter(actions, initial) {
@@ -50,6 +54,23 @@ function chainIter(actions, initial) {
   }
 
   action.apply(innerCallback, initial)
+}
+
+function mapIter(array, action, results, cb) {
+  if (!array.length) {
+    cb(null, results)
+    return
+  }
+  action.call(innerCallback, array.shift())
+
+  function innerCallback(err, data) {
+    if (err) {
+      cb(err, results)
+      return
+    }
+    results.push(data)
+    mapIter(array, action, results, cb)
+  }
 }
 
 function defer(context, fn, args) {
