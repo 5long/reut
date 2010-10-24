@@ -36,6 +36,7 @@ util.merge(TestCase.prototype, {
    */
   run: function(cb) {
     var err
+    this.emit("start")
     this._callback = cb
     try {this._action.call(null, this)}
     catch (err) {this._doEnd(err)}
@@ -45,6 +46,7 @@ util.merge(TestCase.prototype, {
    */
 , end: function() { this._doEnd(null) }
 , _doEnd: function(err) {
+    this.emit("end")
     process.nextTick(function() {
       this._callback(err, this._report())
     }.bind(this))

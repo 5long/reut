@@ -2,7 +2,7 @@ var assert = require("assert")
   , TestCase = require("../src").TestCase
   , EventEmitter = require("events").EventEmitter
   , resultsByEvent = []
-  , remainingCallbacks = 2
+  , remainingCallbacks = 4
   , msg = {
       passed: "This should pass"
     , failed: "This should fail"
@@ -28,6 +28,16 @@ var selfTest = new TestCase("a simple one", function(test) {
 
 var asyncTest = new TestCase("an async one", function(test) {
   process.nextTick(test.end)
+})
+
+selfTest.on("end", function() {
+  remainingCallbacks--
+})
+
+asyncTest.on("start", function() {
+  process.nextTick(function() {
+    remainingCallbacks--
+  })
 })
 
 TestCase.supportedAsserts.forEach(function(name) {

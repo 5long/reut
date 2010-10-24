@@ -2,7 +2,7 @@ var reut = require('../src')
   , TestSuite = reut.TestSuite
   , TestCase = reut.TestCase
   , assert = require('assert')
-  , totalCallbacks = 2
+  , totalCallbacks = 4
   , remainingCallbacks = totalCallbacks
   , testCaseDesc = "a test case"
 
@@ -14,10 +14,20 @@ aSuite.add(new TestCase(testCaseDesc, function(test) {
   }, 10)
 }))
 
-aSuite.on("testStart", function(tc) {
+aSuite.on("start", function() {
+  process.nextTick(function() {
+    remainingCallbacks--
+  })
+})
+
+aSuite.on("yield", function(tc) {
   remainingCallbacks--
   assert.ok(tc instanceof TestCase)
   assert.equal(tc.desc, testCaseDesc)
+})
+
+aSuite.on("end", function() {
+  remainingCallbacks--
 })
 
 aSuite.run(function(err, report) {
