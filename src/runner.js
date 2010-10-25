@@ -1,13 +1,18 @@
 var TestSuite = require("./test_suite")
   , TestCase = require("./test_case")
   , util = require("./util")
+  , fs = require("fs")
+  , reporter = require("./reporter")
+  , sr = new reporter.Simple()
   , async = util.async
   , suites = []
 
 // TODO Extract the test runner interface.
 var runner = module.exports = {
   suite: function(desc) {
-    suites.push(new TestSuite(desc))
+    var suite = new TestSuite(desc)
+    suite.reportTo(sr)
+    suites.push(suite)
   }
 , test: function(desc, action) {
     if (arguments.length < 2) throw TypeError("Wrong number of arguments")
