@@ -17,5 +17,5 @@
   , "url": "http://github.com/5long/reut.git"
   }
 , "scripts": { "test": "make test-all" }
-, "version": "v0.0.1"
+, "version": "0.0.2"
 }
