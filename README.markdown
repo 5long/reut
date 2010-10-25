@@ -26,6 +26,5 @@ _CAUTION:_ barely usable now.
       test.end()
     })
     EOF
-
-    $ node hello.js
-    1 assertions, 0 failed.
+    # And here we go
+    $ reut hello.js
