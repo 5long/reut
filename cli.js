@@ -4,7 +4,7 @@ var runner = require("./src/runner")
   , async = util.async
   , path = require("path")
   , reporterMod = require("./src/reporter")
-  , reporters = [ new reporterMod.Simple()
+  , reporters = [ new reporterMod.Failure()
                 , new reporterMod.Summary()
                 ]
 

@@ -5,10 +5,10 @@ try {
   sys = require("sys")
 }
 
-function SimpleReporter(writable) {
+function FailureReporter(writable) {
   this._output = writable || process.stdout
 }
-util.merge(SimpleReporter.prototype, {
+util.merge(FailureReporter.prototype, {
   watch: function(suite) {
     var self = this
     suite.on("yield", function(tc) {
@@ -38,4 +38,4 @@ util.merge(SimpleReporter.prototype, {
   }
 })
 
-module.exports = SimpleReporter
+module.exports = FailureReporter

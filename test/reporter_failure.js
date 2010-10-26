@@ -2,7 +2,7 @@ var reut = require("../src")
   , EventEmitter = require("events").EventEmitter
   , assert = require("assert")
   , TestSuite = reut.TestSuite
-  , SimpleReporter = reut.reporter.Simple
+  , FailureReporter = reut.reporter.Failure
   , fixture = require("./fixture/sample_test_case")
   , sampleTestCase = fixture.tc
   , dummySuite = new TestSuite()
@@ -14,9 +14,9 @@ var reut = require("../src")
     }
 
 
-var sr = new SimpleReporter(fakeWritable)
+var fr = new FailureReporter(fakeWritable)
 
-sr.watch(dummySuite)
+fr.watch(dummySuite)
 dummySuite.add(fixture.tc)
 dummySuite.run()
 

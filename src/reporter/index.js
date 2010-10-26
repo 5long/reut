@@ -1,4 +1,4 @@
 module.exports = {
-  Simple: require("./simple")
+  Failure: require("./failure")
 , Summary: require("./summary")
 }
