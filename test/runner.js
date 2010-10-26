@@ -22,6 +22,8 @@ reut.test("A test", function(test) {
   test.end()
 })
 
+assert.notDeepEqual(reut._suites, [])
+
 reut.run(opt)
 
 setTimeout(function() {

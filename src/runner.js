@@ -28,4 +28,5 @@ var runner = module.exports = {
       suite.run(this)
     }, cb)
   }
+, _suites: suites
 }
