@@ -2,8 +2,6 @@ var TestSuite = require("./test_suite")
   , TestCase = require("./test_case")
   , util = require("./util")
   , fs = require("fs")
-  , reporter = require("./reporter")
-  , sr = new reporter.Simple()
   , async = util.async
   , suites = []
 
@@ -11,7 +9,6 @@ var TestSuite = require("./test_suite")
 var runner = module.exports = {
   suite: function(desc) {
     var suite = new TestSuite(desc)
-    suite.reportTo(sr)
     suites.push(suite)
   }
 , test: function(desc, action) {
@@ -20,9 +17,14 @@ var runner = module.exports = {
     var suite = suites[suites.length - 1]
     suite.add(new TestCase(desc, action))
   }
-, run: function(cb) {
+, run: function(opt, cb) {
+    if (arguments.length < 2) cb = opt
     if (typeof cb != "function") cb = util.noop
+    var reporters = opt.reporters || []
     async.map(suites, function(suite) {
+      reporters.forEach(function(r) {
+        suite.reportTo(r)
+      })
       suite.run(this)
     }, cb)
   }

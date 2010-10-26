@@ -1,6 +1,14 @@
 var reut = require("../src")
   , assert = require("assert")
-  , holder = {status: 1}
+  , remainingCallbacks = 2
+  , dummyReporter = {
+      watch: function() {
+        remainingCallbacks--
+      }
+    }
+  , opt = {
+      reporters: [dummyReporter]
+    }
 
 function assertFunc(obj) {
   assert.equal(typeof obj, "function")
@@ -10,12 +18,12 @@ assertFunc(reut.suite)
 assertFunc(reut.test)
 
 reut.test("A test", function(test) {
-  holder.status = 0
+  remainingCallbacks--
   test.end()
 })
 
-reut.run()
+reut.run(opt)
 
 setTimeout(function() {
-  process.exit(holder.status)
+  process.exit(remainingCallbacks)
 }, 20)
