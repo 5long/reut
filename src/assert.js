@@ -18,8 +18,8 @@ module.exports = util.merge(eA, {
   }
 
 , length: function(arrayLike, length, msg) {
-    if (arrayLike.length != length) {
-      fail(arrayLike, length, msg, ".length ==", eA.length)
+    if (arrayLike.length !== length) {
+      fail(arrayLike, length, msg, ".length ===", eA.length)
     }
   }
 
