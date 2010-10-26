@@ -1,6 +1,5 @@
 var makeArray = Function.prototype.call.bind(Array.prototype.slice)
   , noop = Function()
-  , sys = require("sys")
 
 var util = module.exports = {
   makeArray: makeArray

@@ -1,5 +1,9 @@
-var util = require("../util")
-  , sys = require("sys")
+var sys, util = require("../util")
+try {
+  sys = require("util")
+} catch (e) {
+  sys = require("sys")
+}
 
 function SimpleReporter(writable) {
   this._output = writable || process.stdout
