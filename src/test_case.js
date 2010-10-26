@@ -46,9 +46,10 @@ util.merge(TestCase.prototype, {
    */
 , end: function() { this._doEnd(null) }
 , _doEnd: function(err) {
-    this.emit("end")
+    var result = this._report()
+    this.emit("end", result)
     process.nextTick(function() {
-      this._callback(err, this._report())
+      this._callback(err, result)
     }.bind(this))
   }
 , _report: function() {

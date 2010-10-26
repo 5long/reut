@@ -18,8 +18,9 @@ var asyncTest = new TestCase("an async one", function(test) {
   process.nextTick(test.end)
 })
 
-simpleTest.on("end", function() {
+simpleTest.on("end", function(report) {
   remainingCallbacks--
+  assert.ok(report.all instanceof Array)
 })
 
 asyncTest.on("start", function() {
