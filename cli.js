@@ -3,6 +3,10 @@ var runner = require("./src/runner")
   , util = require("./src/util")
   , async = util.async
   , path = require("path")
+  , reporterMod = require("./src/reporter")
+  , reporters = [ new reporterMod.Simple()
+                , new reporterMod.Summary()
+                ]
 
 function main() {
   var files = util.makeArray(process.argv, 2)
@@ -12,7 +16,7 @@ function main() {
     loadAndRun(path.join(cwd, file), this)
   }, function(err) {
     if (err) throw err
-    runner.run(function(err) {
+    runner.run({reporters:reporters}, function(err) {
       if (err) throw err
     })
   })
