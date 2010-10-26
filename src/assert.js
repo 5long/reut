@@ -29,4 +29,10 @@ module.exports = util.merge(eA, {
     }
   }
 
+, include: function(haystack, needle, msg) {
+    if (haystack.indexOf(needle) === -1) {
+      fail(haystack, needle, msg, ".indexOf() !== -1", eA.include)
+    }
+  }
+
 })

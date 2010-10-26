@@ -10,6 +10,7 @@ var tc = new TestCase("a simple one", function(test) {
   test.instanceOf(test, EventEmitter, msg.passed)
   test.typeOf(0, "string", msg.failed)
   test.length([], 1)
+  test.include(["holy", "shit"], "holy")
   test.match("foo", /o+$/)
   test.throws(function() {
     return somethingUndefined
@@ -22,8 +23,8 @@ module.exports = {
 , testCaseDesc: "a simple one"
 , msg: msg
 , num: {
-    all: 5
-  , passed: 3
+    all: 6
+  , passed: 4
   , failed: 2
   }
 }
