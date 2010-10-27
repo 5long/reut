@@ -30,7 +30,7 @@ supportedAsserts.forEach(function(name) {
   }
 })
 
-util.merge(TestCase.prototype, {
+util.def(TestCase.prototype, {
   /*
    * Supposed to be called by test runner.
    */
@@ -42,11 +42,33 @@ util.merge(TestCase.prototype, {
     catch (err) {this._doEnd(err)}
   }
   /*
+   * Set timeout in milliseconds ensuring async test
+   * ends eventually.
+   */
+, set timeout(ms) {
+    this._clearTimeout()
+    this._timeoutHandler = setTimeout(function() {
+      var msg = [ "Test"
+                , this.desc
+                , "doesn't end in"
+                , ms
+                , "ms"
+                ].join(" ")
+        , err = Error(msg)
+      this.emit("error", err)
+      this._doEnd(err)
+    }.bind(this), ms || 0)
+  }
+, _clearTimeout: function() {
+    if (this._timeoutHandler) clearTimeout(this._timeoutHandler)
+  }
+  /*
    * Explicitly finish test case.
    */
 , end: function() { this._doEnd(null) }
 , _doEnd: function(err) {
     var result = this._report()
+    this._clearTimeout()
     this.emit("end", result)
     process.nextTick(function() {
       this._callback(err, result)
