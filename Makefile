@@ -7,4 +7,5 @@ test-all:
 
 reinstall:
 	npm uninstall reut
+	npm cache clean reut
 	npm install .
