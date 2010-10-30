@@ -1,9 +1,11 @@
 var assert = require("assert")
   , TestCase = require("../src").TestCase
+  , EventEmitter = require("events").EventEmitter
   , resultsByEvent = []
   , fixture = require("./fixture/sample_test_case")
-  , remainingCallbacks = 4
+  , remainingCallbacks = 6
   , msg = fixture.msg
+  , someEventSource = new EventEmitter()
 
 function assertFunc(obj) {
   assert.equal(typeof obj, "function")
@@ -15,8 +17,17 @@ simpleTest.on("assert", function(result) {
 })
 
 var asyncTest = new TestCase("an async one", function(test) {
-  process.nextTick(test.end)
+  remainingCallbacks--
+  someEventSource.on("launch", test.cb(function(num) {
+    remainingCallbacks--
+    test.equal(num, num, "But it's NaN!")
+    process.nextTick(test.end)
+  }))
 })
+
+setTimeout(function() {
+  someEventSource.emit("launch", NaN)
+}, 3)
 
 simpleTest.on("end", function(report) {
   remainingCallbacks--
@@ -49,7 +60,8 @@ simpleTest.run(function(err, report) {
   assert.deepEqual(resultsByEvent, report.all)
 })
 
-asyncTest.run(function() {
+asyncTest.run(function(err) {
+  assert.ifError(err)
   remainingCallbacks--
 })
 

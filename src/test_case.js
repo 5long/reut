@@ -3,7 +3,7 @@ var util = require("./util")
   , EventEmitter = require("events").EventEmitter
   , supportedAsserts = ("ok equal notEqual deepEqual notDeepEqual"
       + " strictEqual notStrictEqual throws doesNotThrow"
-      + " instanceOf typeOf length match include").split(" ")
+      + " instanceOf typeOf length match include cb").split(" ")
 
 function TestCase(desc, action) {
   if (arguments.length < 2) throw TypeError("Wrong number of arguments")
@@ -58,6 +58,11 @@ util.def(TestCase.prototype, {
       this.emit("error", err)
       this._doEnd(err)
     }.bind(this), ms || 0)
+  }
+, cb: function(fn) {
+    return function() {
+      fn.apply(this, arguments)
+    }
   }
 , _clearTimeout: function() {
     if (this._timeoutHandler) clearTimeout(this._timeoutHandler)
