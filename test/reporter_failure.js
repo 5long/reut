@@ -18,7 +18,9 @@ var fr = new FailureReporter(fakeWritable)
 
 fr.watch(dummySuite)
 dummySuite.add(fixture.tc)
-dummySuite.run()
+dummySuite.run(function(err) {
+  assert.ifError(err)
+})
 
 process.on("exit", function() {
   assert.equal(fakeWritable.input.length, fixture.num.failed)

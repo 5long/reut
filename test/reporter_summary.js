@@ -17,7 +17,9 @@ var sr = new SummaryReporter(fakeWritable)
 
 sr.watch(dummySuite)
 dummySuite.add(fixture.tc)
-dummySuite.run()
+dummySuite.run(function(err) {
+  assert.ifError(err)
+})
 
 process.on("exit", function() {
   var output = fakeWritable.input[0]
