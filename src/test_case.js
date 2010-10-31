@@ -14,7 +14,10 @@ function TestCase(desc, action) {
   this.end = this.end.bind(this)
 }
 util.inherits(TestCase, EventEmitter)
-TestCase.supportedAsserts = supportedAsserts
+TestCase.supportedAsserts = supportedAsserts.reduce(function(set, key) {
+  set[key] = true
+  return set
+}, {})
 
 supportedAsserts.forEach(function(name) {
   if (!(name in assert)) return

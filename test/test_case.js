@@ -40,9 +40,9 @@ asyncTest.on("start", function() {
   })
 })
 
-TestCase.supportedAsserts.forEach(function(name) {
-  assertFunc(this[name])
-}, TestCase.prototype)
+for (var name in TestCase.supportedAsserts) {
+  assertFunc(TestCase.prototype[name])
+}
 
 simpleTest.run(function(err, report) {
   remainingCallbacks--
