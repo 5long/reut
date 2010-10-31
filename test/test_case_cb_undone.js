@@ -1,5 +1,5 @@
 var assert = require("assert")
-  , reut = require("reut")
+  , reut = require("../src")
   , TestCase = reut.TestCase
   , fixture = require("./fixture/test_case_cb_undone")
   , remainingCallback = 3

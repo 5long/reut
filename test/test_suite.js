@@ -2,8 +2,7 @@ var reut = require('../src')
   , TestSuite = reut.TestSuite
   , TestCase = reut.TestCase
   , assert = require('assert')
-  , totalCallbacks = 5
-  , remainingCallbacks = totalCallbacks
+  , remainingCallbacks = 5
   , testCaseDesc = "a test case"
   , fakeReporter = {
       watch: function() {
@@ -16,16 +15,15 @@ var reut = require('../src')
 var aSuite = new TestSuite("no desc")
 aSuite.reportTo(fakeReporter)
 aSuite.add(new TestCase(testCaseDesc, function(test) {
+  test.timeout = 10
   setTimeout(function() {
     test.ok(1, "I'm done")
     test.end()
-  }, 10)
+  }, 2)
 }))
 
 aSuite.on("start", function() {
-  process.nextTick(function() {
-    remainingCallbacks--
-  })
+  remainingCallbacks--
 })
 
 aSuite.on("yield", function(tc) {
@@ -44,8 +42,6 @@ aSuite.run(function(err, report) {
   assert.equal(report.length, 1)
   assert.equal(report[0].passed.length, 1)
 })
-
-assert.equal(remainingCallbacks, totalCallbacks)
 
 setTimeout(function() {
   process.exit(remainingCallbacks)
