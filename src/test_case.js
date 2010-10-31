@@ -86,6 +86,7 @@ util.def(TestCase.prototype, {
    */
 , end: function() { this._doEnd(null) }
 , _doEnd: function(err) {
+    if (err) this.emit("error", err)
     this.emit("_beforeEnd")
     var result = this._report()
     this._clearTimeout()

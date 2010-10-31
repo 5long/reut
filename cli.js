@@ -6,6 +6,7 @@ var runner = require("./src/runner")
   , reporterMod = require("./src/reporter")
   , reporters = [ new reporterMod.Failure()
                 , new reporterMod.Summary()
+                , new reporterMod.Error()
                 ]
 
 function main() {
