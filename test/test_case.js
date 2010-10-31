@@ -3,7 +3,7 @@ var assert = require("assert")
   , EventEmitter = require("events").EventEmitter
   , resultsByEvent = []
   , fixture = require("./fixture/sample_test_case")
-  , remainingCallbacks = 6
+  , remainingCallbacks = 7
   , msg = fixture.msg
   , someEventSource = new EventEmitter()
 
@@ -14,6 +14,11 @@ function assertFunc(obj) {
 var simpleTest = fixture.tc
 simpleTest.on("assert", function(result) {
   resultsByEvent.push(result)
+})
+
+simpleTest.on("notice", function(notice) {
+  remainingCallbacks--
+  assert.equal(notice, msg.notice)
 })
 
 var asyncTest = new TestCase("an async one", function(test) {

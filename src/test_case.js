@@ -54,6 +54,9 @@ util.def(TestCase.prototype, {
     this._clearTimeout()
     this._timeoutHandler = setTimeout(this.end, ms || 0)
   }
+, notice: function(msg) {
+    this.emit("notice", msg)
+  }
 , cb: function Self(fn, msg) {
     var executed = false
       , self = this

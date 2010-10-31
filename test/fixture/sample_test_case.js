@@ -4,9 +4,11 @@ var reut = require("../../src")
   , msg = {
       passed: "This should pass"
     , failed: "This should fail"
+    , notice: "I'm going on!"
     }
 
 var tc = new TestCase("a simple one", function(test) {
+  test.notice(msg.notice)
   test.instanceOf(test, EventEmitter, msg.passed)
   test.typeOf(0, "string", msg.failed)
   test.length([], 1)
