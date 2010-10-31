@@ -1,15 +1,20 @@
 ## Terminology
 
-The terminologies in reut is slightly different those in xUnit. Be sure to read through this section before you begin.
+The terminologies in reut is slightly different those in xUnit. Be sure to
+read through this section before you begin.
 
 ### Test
 
-A test consists of exactly _one_ test function, which is called `action`. The test object implemented following interfaces:
+A test consists of exactly _one_ test function, which is called `action`.
+The test object implemented following interfaces:
 
 There's no test case in reut.
 
-* Assertion interface, including methods from native `assert` module as well as extended assertion methods. This tends to be used for writing tests
-* Test controlling interface, which controls the running process of the test. This tends to be used as asynchronous test helpers.
+* Assertion interface, including methods from native `assert` module as
+  well as extended assertion methods. This tends to be used for writing
+  tests
+* Test controlling interface, which controls the running process of the
+  test. This tends to be used as asynchronous test helpers.
 * An evented interface for reporters.
 
 ### Action
@@ -28,7 +33,8 @@ Module `reut` is used for defining test suites and tests.
 
 ### reut.suite(name)
 
-Create a test suite. Also makes the following tests belong to this test suite until another `reut.suite` is called.
+Create a test suite. Also makes the following tests belong to this test
+suite until another `reut.suite` is called.
 
 Example:
 
@@ -38,7 +44,8 @@ Example:
 
 ### reut.test(desc, action)
 
-Define a test. The test object would be passed as the 1st parameter to the action function.
+Define a test. The test object would be passed as the 1st parameter to the
+action function.
 
 Example:
 
@@ -73,7 +80,9 @@ Example:
 
 Later assignment to `test.timeout` would override the previous one.
 
-_NOTICE_: The default timeout for a test is only _1ms_ so it works like a synchronous test. Always declare a timeout long enough for your asynchronous test.
+_NOTICE_: The default timeout for a test is only _1ms_ so it works like a
+synchronous test. Always declare a timeout long enough for your
+asynchronous test.
 
 ## Assertion Interface
 
@@ -97,7 +106,9 @@ Example:
 
 ### test.cb(fn[, message])
 
-Make sure function `fn` is called at least once before test ends. Context and arguments are passed along to `fn` and you can also write assertions within `fn`. This works best together with `test.timeout`.
+Make sure function `fn` is called at least once before test ends. Context
+and arguments are passed along to `fn` and you can also write assertions
+within `fn`. This works best together with `test.timeout`.
 
 Failed or not, this method counts as one assertion in report.
 
@@ -131,7 +142,8 @@ Notice the broken snippet below:
 
 ## Command Line Runner
 
-reut provides a command line runner `reut`. It loads all arguments as test files, runs them, and generates report for failures and errors.
+reut provides a command line runner `reut`. It loads all arguments as test
+files, runs them, and generates report for failures and errors.
 
 Usage:
 
