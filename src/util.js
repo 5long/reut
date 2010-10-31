@@ -5,6 +5,7 @@ var util = module.exports = {
   makeArray: makeArray
 , isFunc: isFunc
 , defer: defer
+, pushAll: Function.prototype.apply.bind(Array.prototype.push)
 , merge: function() {
     if (!arguments.length) throw TypeError("Destination object needed")
     var sources = makeArray(arguments)
