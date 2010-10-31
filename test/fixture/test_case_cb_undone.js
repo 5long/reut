@@ -7,7 +7,7 @@ var reut = require("../../src")
 var undone = new TestCase(desc, function(assert) {
   lazyEventSource.on("launch", assert.cb(function() {
     assert.ok(1, "Alright, finally you called")
-  }))
+  }, "Expecting this to run"))
   process.nextTick(assert.end)
 })
 

@@ -6,6 +6,8 @@ var assert = require("assert")
   , tc = fixture.tc
 
 tc.run(function(err, result) {
+  var failed = result.failed[0]
   assert.ifError(err)
   assert.equal(result.failed.length, fixture.num.fail)
+  assert.equal(typeof failed.stack, "string")
 })

@@ -1,5 +1,6 @@
 var util = require("./util")
   , assert = require("./assert")
+  , AssertionError = assert.AssertionError
   , EventEmitter = require("events").EventEmitter
   , supportedAsserts = ("ok equal notEqual deepEqual notDeepEqual"
       + " strictEqual notStrictEqual throws doesNotThrow"
@@ -59,10 +60,19 @@ util.def(TestCase.prototype, {
       this._doEnd(err)
     }.bind(this), ms || 0)
   }
-, cb: function(fn) {
+, cb: function Self(fn, msg) {
     var executed = false
+      // Hacky and incomplete, but it's the best I can do.
+      , err = new AssertionError({
+          message: msg
+        , expected: fn
+        , actual: "not called"
+        , operator: "()"
+        , stackStartFunction: Self
+        })
+
     this.on("_beforeEnd", function() {
-      if (!executed) this._log(false)
+      if (!executed) this._log(false, msg, err)
     })
     return function() {
       executed = true
