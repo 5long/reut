@@ -1,5 +1,6 @@
 var util = require("../util")
   , pushAll = util.pushAll
+  , AbstractReporter = require("./abstract")
 
 function SummaryReporter(writable) {
   var self = this
@@ -9,13 +10,13 @@ function SummaryReporter(writable) {
     self._report()
   })
 }
+util.inherits(SummaryReporter, AbstractReporter)
+
 util.merge(SummaryReporter.prototype, {
-  watch: function(suite) {
+  _watchTestCase: function(tc) {
     var self = this
-    suite.on("yield", function(tc) {
-      tc.on("end", function(result) {
-        self._record(result)
-      })
+    tc.on("end", function(result) {
+      self._record(result)
     })
   }
 , _record: function(result) {

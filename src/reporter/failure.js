@@ -1,4 +1,5 @@
-var sys, util = require("../util")
+var sys, e, util = require("../util")
+  , AbstractReporter = require("./abstract")
 try {
   sys = require("util")
 } catch (e) {
@@ -8,14 +9,14 @@ try {
 function FailureReporter(writable) {
   this._output = writable || process.stdout
 }
+util.inherits(FailureReporter, AbstractReporter)
+
 util.merge(FailureReporter.prototype, {
-  watch: function(suite) {
+  _watchTestCase: function(tc, suite) {
     var self = this
-    suite.on("yield", function(tc) {
-      tc.on("assert", function(result) {
-        if (result.passed) return
-        self._report(result, tc, suite)
-      })
+    tc.on("assert", function(result) {
+      if (result.passed) return
+      self._report(result, tc, suite)
     })
   }
 , _report: function(result, tc, suite) {
