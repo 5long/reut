@@ -30,7 +30,7 @@ util.merge(SummaryReporter.prototype, {
   }
 , _format: function(result) {
     return [ result.all.length
-           , "assertions,"
+           , "assertion(s),"
            , result.passed.length
            , "passed,"
            , result.failed.length

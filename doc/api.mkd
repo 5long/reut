@@ -1,0 +1,138 @@
+## Terminology
+
+The terminologies in reut is slightly different those in xUnit. Be sure to read through this section before you begin.
+
+### Test
+
+A test consists of exactly _one_ test function, which is called `action`. The test object implemented following interfaces:
+
+There's no test case in reut.
+
+* Assertion interface, including methods from native `assert` module as well as extended assertion methods. This tends to be used for writing tests
+* Test controlling interface, which controls the running process of the test. This tends to be used as asynchronous test helpers.
+* An evented interface for reporters.
+
+### Action
+
+The action calls assertion methods to accomplish testing tasks.
+
+### Test Suite
+
+A test suite is a collection of tests.
+
+Within one single test suite, tests are run serially.
+
+## Module `reut`
+
+Module `reut` is used for defining test suites and tests.
+
+### reut.suite(name)
+
+Create a test suite. Also makes the following tests belong to this test suite until another `reut.suite` is called.
+
+Example:
+
+    var reut = require("reut")
+    reut.suite("You are collected")
+    // And the following tests belong to this suite
+
+### reut.test(desc, action)
+
+Define a test. The test object would be passed as the 1st parameter to the action function.
+
+Example:
+
+    var reut = require("reut")
+    // If it's the first time reut.test gets called,
+    // reut automatically creates an anonymous test suite.
+    reut.test("A sample test", function(test) {
+      // Test code goes here.
+    })
+
+## Controlling Interface
+
+### test.end
+
+Explicitly finish the test.
+
+Example:
+
+    var reut = require("reut")
+    reut.test("End me", function(test) {
+      test.end()
+      test.ok(false, "You won't see me in report")
+    })
+
+### (Setter) test.timeout
+
+`test.timeout = 100` is roughly equivalent to:
+
+    setTimeout(function(){
+      test.end()
+    }, 100)
+
+Later assignment to `test.timeout` would override the previous one.
+
+_NOTICE_: The default timeout for a test is only _1ms_ so it works like a synchronous test. Always declare a timeout long enough for your asynchronous test.
+
+## Assertion Interface
+
+Example:
+
+    var reut = require("reut")
+    reut.test("A sample test", function(test) {
+      test.ok(1, "Native assertion method")
+
+      test.typeOf(test, "object", "An extended one")
+      test.instanceOf({}, Object)
+
+      test.include("foobar", "foo", "Works with string")
+      test.include([3, 5, 6], 5, "And array")
+
+      test.length([], 0)
+      test.length("goofy", 5)
+
+      test.match(/hi/, "holy shit")
+    })
+
+### test.cb(fn[, message])
+
+Make sure function `fn` is called at least once before test ends. Context and arguments are passed along to `fn` and you can also write assertions within `fn`. This works best together with `test.timeout`.
+
+Failed or not, this method counts as one assertion in report.
+
+Example:
+
+    var reut = require("reut")
+      , fs = require("fs")
+    reut.test("fs.stat", function(test) {
+      test.timeout = 25 // Might be running that long.
+      fs.stat("/etc/passwd", test.cb(function(err, stat){
+        test.instanceOf(stat, fs.Stats, "tricky, huh?")
+      }))
+    })
+
+Notice the broken snippet below:
+
+    var reut = require("reut")
+      , fs = require("fs")
+      , file = "/etc/passwd"
+
+    reut.test("fs.stat", function(test) {
+      test.timeout = 50 // Might be running longer
+      // This level of callback is not wrapped with assert.cb
+      fs.stat(file, function(err, stat){
+        // So the following is NOT guaranteed to execute!
+        fs.readFile(file, assert.cb(function(err, content){
+          assert.typeOf(content, "string", "Bad example")
+        }))
+      })
+    })
+
+## Command Line Runner
+
+reut provides a command line runner `reut`. It loads all arguments as test files, runs them, and generates report for failures and errors.
+
+Usage:
+
+    $ reut [files]

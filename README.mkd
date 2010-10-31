@@ -2,20 +2,19 @@
 
 Simply another unit test framework for node.js.
 
-_CAUTION:_ barely usable now.
-
 ## Design
 
+* QUnit-like API
 * Doesn't force you to use a flow control pattern
+* But try to support async tests
 * Does a little bit magic but not too much
+* Keep a \`right' design internally
 
-## Usage
-
-### Installation
+## Installation
 
     $ npm install reut
 
-### Give it a shot
+## Usage
 
     $ cat <<EOF >hello.js
     var reut = require("reut")
@@ -26,3 +25,5 @@ _CAUTION:_ barely usable now.
     EOF
     # And here we go
     $ reut hello.js
+
+See `doc/api.mkd` for more.
