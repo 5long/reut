@@ -6,7 +6,6 @@ _CAUTION:_ barely usable now.
 
 ## Design
 
-* Assumes most tests run asynchronously
 * Doesn't force you to use a flow control pattern
 * Does a little bit magic but not too much
 
@@ -23,7 +22,6 @@ _CAUTION:_ barely usable now.
     reut.suite("Say hello!")
     reut.test("Chinese", function(test) {
       test.ok(true, "你好")
-      test.end()
     })
     EOF
     # And here we go
