@@ -60,9 +60,10 @@ simpleTest.run(function(err, report) {
   assert.deepEqual(resultsByEvent, report.all)
 })
 
-asyncTest.run(function(err) {
+asyncTest.run(function(err, result) {
   assert.ifError(err)
   remainingCallbacks--
+  assert.equal(result.all.length, 2)
 })
 
 setTimeout(function() {

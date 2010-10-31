@@ -53,6 +53,7 @@ util.def(TestCase.prototype, {
   }
 , cb: function Self(fn, msg) {
     var executed = false
+      , self = this
       // Hacky and incomplete, but it's the best I can do.
       , err = new AssertionError({
           message: msg
@@ -67,6 +68,7 @@ util.def(TestCase.prototype, {
     })
     return function() {
       executed = true
+      self._log(true, msg)
       fn.apply(this, arguments)
     }
   }
