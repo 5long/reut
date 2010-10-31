@@ -13,9 +13,9 @@ function SummaryReporter(writable) {
 util.inherits(SummaryReporter, AbstractReporter)
 
 util.merge(SummaryReporter.prototype, {
-  _watchTestCase: function(tc) {
+  _watchTest: function(t) {
     var self = this
-    tc.on("end", function(result) {
+    t.on("end", function(result) {
       self._record(result)
     })
   }

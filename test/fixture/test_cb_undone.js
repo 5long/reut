@@ -1,10 +1,10 @@
 var reut = require("../../src")
-  , TestCase = reut.TestCase
+  , Test = reut.Test
   , EventEmitter = require("events").EventEmitter
   , desc = "Your cb() is not called in time"
   , lazyEventSource = new EventEmitter()
 
-var undone = new TestCase(desc, function(assert) {
+var undone = new Test(desc, function(assert) {
   lazyEventSource.on("launch", assert.cb(function() {
     assert.ok(1, "Alright, finally you called")
   }, "Expecting this to run"))
@@ -16,7 +16,7 @@ setTimeout(function() {
 }, 10)
 
 module.exports = {
-  tc: undone
+  t: undone
 , desc: desc
 , timeout: 5
 , num: {

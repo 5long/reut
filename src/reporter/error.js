@@ -7,18 +7,18 @@ function ErrorReporter(writable) {
 util.inherits(ErrorReporter, AbstractReporter)
 
 util.merge(ErrorReporter.prototype, {
-  _watchTestCase: function(tc) {
+  _watchTest: function(t) {
     var self = this
-    tc.on("error", function(err) {
-      self._report(err, tc)
+    t.on("error", function(err) {
+      self._report(err, t)
     })
   }
-, _report: function(err, tc) {
-    this._output.write(this._format(err, tc))
+, _report: function(err, t) {
+    this._output.write(this._format(err, t))
   }
-, _format: function(err, tc) {
-    return [ "Test case"
-           , tc.desc
+, _format: function(err, t) {
+    return [ "Test"
+           , t.desc
            , "got error:"
            , err.message + "\n" + err.stack
            ].join(" ")

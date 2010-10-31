@@ -1,14 +1,14 @@
 var reut = require("../../src")
-  , TestCase = reut.TestCase
+  , Test = reut.Test
   , desc = "Throw it on your face"
 
-var thrower = new TestCase(desc, function(assert) {
+var thrower = new Test(desc, function(assert) {
   assert.include("wakakakakakaa", "aa", "Going")
   throw module.exports.error = Error("Yeeeeeeeeha!")
 })
 
 module.exports = {
-  tc: thrower
+  t: thrower
 , desc: desc
 , num: {
     all: 1

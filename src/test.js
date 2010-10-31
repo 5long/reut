@@ -6,22 +6,22 @@ var util = require("./util")
       + " strictEqual notStrictEqual throws doesNotThrow"
       + " instanceOf typeOf length match include cb").split(" ")
 
-function TestCase(desc, action) {
+function Test(desc, action) {
   if (arguments.length < 2) throw TypeError("Wrong number of arguments")
   this.desc = desc
   this._action = action
   this._results = []
   this.end = this.end.bind(this)
 }
-util.inherits(TestCase, EventEmitter)
-TestCase.supportedAsserts = supportedAsserts.reduce(function(set, key) {
+util.inherits(Test, EventEmitter)
+Test.supportedAsserts = supportedAsserts.reduce(function(set, key) {
   set[key] = true
   return set
 }, {})
 
 supportedAsserts.forEach(function(name) {
   if (!(name in assert)) return
-  TestCase.prototype[name] = function() {
+  Test.prototype[name] = function() {
     var e, posForMsg = assert[name].length - 1
       , msg = arguments[posForMsg]
     try {
@@ -34,7 +34,7 @@ supportedAsserts.forEach(function(name) {
   }
 })
 
-util.def(TestCase.prototype, {
+util.def(Test.prototype, {
   /*
    * Supposed to be called by test runner.
    */
@@ -82,7 +82,7 @@ util.def(TestCase.prototype, {
     if (this._timeoutHandler) clearTimeout(this._timeoutHandler)
   }
   /*
-   * Explicitly finish test case.
+   * Explicitly finish test
    */
 , end: function() { this._doEnd(null) }
 , _doEnd: function(err) {
@@ -112,4 +112,4 @@ util.def(TestCase.prototype, {
   }
 })
 
-module.exports = TestCase
+module.exports = Test

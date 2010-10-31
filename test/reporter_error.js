@@ -2,7 +2,7 @@ var reut = require("../src")
   , assert = require("assert")
   , TestSuite = reut.TestSuite
   , ErrorReporter = reut.reporter.Error
-  , errorTestCase = require("./fixture/error_test_case")
+  , errorTest = require("./fixture/error_test")
   , dummySuite = new TestSuite()
   , spyWritable = {
       input: []
@@ -14,11 +14,11 @@ var reut = require("../src")
 var er = new ErrorReporter(spyWritable)
 
 er.watch(dummySuite)
-dummySuite.add(errorTestCase.tc)
+dummySuite.add(errorTest.t)
 dummySuite.run(function(err) {
-  if (err != errorTestCase.error) assert.ifError(err)
+  if (err != errorTest.error) assert.ifError(err)
 })
 
 process.on("exit", function() {
-  assert.equal(spyWritable.input.length, errorTestCase.num.error)
+  assert.equal(spyWritable.input.length, errorTest.num.error)
 })

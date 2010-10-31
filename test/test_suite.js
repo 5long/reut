@@ -1,9 +1,9 @@
 var reut = require('../src')
   , TestSuite = reut.TestSuite
-  , TestCase = reut.TestCase
+  , Test = reut.Test
   , assert = require('assert')
   , remainingCallbacks = 5
-  , testCaseDesc = "a test case"
+  , testDesc = "a test"
   , spyReporter = {
       watch: function() {
         process.nextTick(function() {
@@ -14,7 +14,7 @@ var reut = require('../src')
 
 var theSuite = new TestSuite("no desc")
 theSuite.reportTo(spyReporter)
-theSuite.add(new TestCase(testCaseDesc, function(test) {
+theSuite.add(new Test(testDesc, function(test) {
   test.timeout = 10
   setTimeout(function() {
     test.ok(1, "I'm done")
@@ -26,10 +26,10 @@ theSuite.on("start", function() {
   remainingCallbacks--
 })
 
-theSuite.on("yield", function(tc) {
+theSuite.on("yield", function(t) {
   remainingCallbacks--
-  assert.ok(tc instanceof TestCase)
-  assert.equal(tc.desc, testCaseDesc)
+  assert.ok(t instanceof Test)
+  assert.equal(t.desc, testDesc)
 })
 
 theSuite.on("end", function() {

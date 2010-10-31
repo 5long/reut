@@ -3,7 +3,7 @@ var util = require("./util")
   , reporter = require("./reporter")
 
 module.exports = {
-  TestCase: require("./test_case")
+  Test: require("./test")
 , TestSuite: require('./test_suite')
 , reporter: reporter
 }

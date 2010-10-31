@@ -1,8 +1,8 @@
 var assert = require("assert")
-  , TestCase = require("../src").TestCase
+  , Test = require("../src").Test
   , EventEmitter = require("events").EventEmitter
   , resultsByEvent = []
-  , fixture = require("./fixture/sample_test_case")
+  , fixture = require("./fixture/sample_test")
   , remainingCallbacks = 7
   , msg = fixture.msg
   , someEventSource = new EventEmitter()
@@ -11,7 +11,7 @@ function assertFunc(obj) {
   assert.equal(typeof obj, "function")
 }
 
-var simpleTest = fixture.tc
+var simpleTest = fixture.t
 simpleTest.on("assert", function(result) {
   resultsByEvent.push(result)
 })
@@ -21,7 +21,7 @@ simpleTest.on("notice", function(notice) {
   assert.equal(notice, msg.notice)
 })
 
-var asyncTest = new TestCase("an async one", function(test) {
+var asyncTest = new Test("an async one", function(test) {
   remainingCallbacks--
   test.timeout = 5
   someEventSource.on("launch", test.cb(function(num) {
@@ -45,8 +45,8 @@ asyncTest.on("start", function() {
   })
 })
 
-for (var name in TestCase.supportedAsserts) {
-  assertFunc(TestCase.prototype[name])
+for (var name in Test.supportedAsserts) {
+  assertFunc(Test.prototype[name])
 }
 
 simpleTest.run(function(err, report) {

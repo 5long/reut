@@ -2,8 +2,8 @@ function AbstractReporter() {}
 
 AbstractReporter.prototype.watch = function(suite) {
   var self = this
-  suite.on("yield", function(tc) {
-    self._watchTestCase(tc, suite)
+  suite.on("yield", function(t) {
+    self._watchTest(t, suite)
   })
 }
 

@@ -2,7 +2,7 @@ var reut = require("reut")
 
 reut.suite("Some more assertion method")
 
-var tc = reut.test("Cuz CommonJS is slow at evolving", function(assert) {
+var t = reut.test("Cuz CommonJS is slow at evolving", function(assert) {
   assert.include("foo", "oo", "Wraps indexOf != -1")
   assert.length([], 1, "This should fail")
   assert.instanceOf({}, Object)

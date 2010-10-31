@@ -12,17 +12,17 @@ function FailureReporter(writable) {
 util.inherits(FailureReporter, AbstractReporter)
 
 util.merge(FailureReporter.prototype, {
-  _watchTestCase: function(tc, suite) {
+  _watchTest: function(t, suite) {
     var self = this
-    tc.on("assert", function(result) {
+    t.on("assert", function(result) {
       if (result.passed) return
-      self._report(result, tc, suite)
+      self._report(result, t, suite)
     })
   }
-, _report: function(result, tc, suite) {
-    this._output.write(this._format(result, tc, suite))
+, _report: function(result, t, suite) {
+    this._output.write(this._format(result, t, suite))
   }
-, _format: function(result, tc, suite) {
+, _format: function(result, t, suite) {
     // Assuming path seperator is "/"
     // and the format of stack trace remains.
     var matched = result.stack.match(/([^\/]+:\d+:\d+)/)

@@ -1,5 +1,5 @@
 var reut = require("../../src")
-  , TestCase = reut.TestCase
+  , Test = reut.Test
   , EventEmitter = require("events").EventEmitter
   , msg = {
       passed: "This should pass"
@@ -7,7 +7,7 @@ var reut = require("../../src")
     , notice: "I'm going on!"
     }
 
-var tc = new TestCase("a simple one", function(test) {
+var t = new Test("a simple one", function(test) {
   test.notice(msg.notice)
   test.instanceOf(test, EventEmitter, msg.passed)
   test.typeOf(0, "string", msg.failed)
@@ -20,8 +20,8 @@ var tc = new TestCase("a simple one", function(test) {
 })
 
 module.exports = {
-  tc: tc
-, testCaseDesc: "a simple one"
+  t: t
+, testDesc: "a simple one"
 , msg: msg
 , num: {
     all: 6
