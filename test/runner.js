@@ -1,13 +1,13 @@
 var reut = require("../src")
   , assert = require("assert")
   , remainingCallbacks = 2
-  , dummyReporter = {
+  , spyReporter = {
       watch: function() {
         remainingCallbacks--
       }
     }
   , opt = {
-      reporters: [dummyReporter]
+      reporters: [spyReporter]
     }
 
 function assertFunc(obj) {

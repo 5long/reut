@@ -4,7 +4,7 @@ var reut = require('../src')
   , assert = require('assert')
   , remainingCallbacks = 5
   , testCaseDesc = "a test case"
-  , fakeReporter = {
+  , spyReporter = {
       watch: function() {
         process.nextTick(function() {
           remainingCallbacks--
@@ -12,9 +12,9 @@ var reut = require('../src')
       }
     }
 
-var aSuite = new TestSuite("no desc")
-aSuite.reportTo(fakeReporter)
-aSuite.add(new TestCase(testCaseDesc, function(test) {
+var theSuite = new TestSuite("no desc")
+theSuite.reportTo(spyReporter)
+theSuite.add(new TestCase(testCaseDesc, function(test) {
   test.timeout = 10
   setTimeout(function() {
     test.ok(1, "I'm done")
@@ -22,21 +22,21 @@ aSuite.add(new TestCase(testCaseDesc, function(test) {
   }, 2)
 }))
 
-aSuite.on("start", function() {
+theSuite.on("start", function() {
   remainingCallbacks--
 })
 
-aSuite.on("yield", function(tc) {
+theSuite.on("yield", function(tc) {
   remainingCallbacks--
   assert.ok(tc instanceof TestCase)
   assert.equal(tc.desc, testCaseDesc)
 })
 
-aSuite.on("end", function() {
+theSuite.on("end", function() {
   remainingCallbacks--
 })
 
-aSuite.run(function(err, report) {
+theSuite.run(function(err, report) {
   assert.ifError(err)
   remainingCallbacks--
   assert.equal(report.length, 1)

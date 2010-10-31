@@ -1,27 +1,24 @@
 var reut = require("../src")
-  , EventEmitter = require("events").EventEmitter
   , assert = require("assert")
   , TestSuite = reut.TestSuite
   , FailureReporter = reut.reporter.Failure
-  , fixture = require("./fixture/sample_test_case")
-  , sampleTestCase = fixture.tc
+  , sampleTestCase = require("./fixture/sample_test_case")
   , dummySuite = new TestSuite()
-  , fakeWritable = {
+  , spyWritable = {
       input: []
     , write: function(str) {
         this.input.push(str)
       }
     }
 
-
-var fr = new FailureReporter(fakeWritable)
+var fr = new FailureReporter(spyWritable)
 
 fr.watch(dummySuite)
-dummySuite.add(fixture.tc)
+dummySuite.add(sampleTestCase.tc)
 dummySuite.run(function(err) {
   assert.ifError(err)
 })
 
 process.on("exit", function() {
-  assert.equal(fakeWritable.input.length, fixture.num.failed)
+  assert.equal(spyWritable.input.length, sampleTestCase.num.failed)
 })
