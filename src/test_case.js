@@ -60,7 +60,12 @@ util.def(TestCase.prototype, {
     }.bind(this), ms || 0)
   }
 , cb: function(fn) {
+    var executed = false
+    this.on("_beforeEnd", function() {
+      if (!executed) this._log(false)
+    })
     return function() {
+      executed = true
       fn.apply(this, arguments)
     }
   }
@@ -72,6 +77,7 @@ util.def(TestCase.prototype, {
    */
 , end: function() { this._doEnd(null) }
 , _doEnd: function(err) {
+    this.emit("_beforeEnd")
     var result = this._report()
     this._clearTimeout()
     this.emit("end", result)
