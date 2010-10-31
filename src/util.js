@@ -55,7 +55,7 @@ function chainIter(actions, initial) {
   if (!action) return
 
   function innerCallback() {
-    if (initial[0] instanceof Error) initial.shift()
+    initial.shift()
     var recent = makeArray(arguments)
       , passingOn = recent.concat(initial)
     chainIter(actions, passingOn)
