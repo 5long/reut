@@ -15,7 +15,6 @@ var tc = new TestCase("a simple one", function(test) {
   test.throws(function() {
     return somethingUndefined
   }, ReferenceError)
-  test.end()
 })
 
 module.exports = {

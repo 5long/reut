@@ -18,10 +18,10 @@ simpleTest.on("assert", function(result) {
 
 var asyncTest = new TestCase("an async one", function(test) {
   remainingCallbacks--
+  test.timeout = 8
   someEventSource.on("launch", test.cb(function(num) {
     remainingCallbacks--
     test.equal(num, num, "But it's NaN!")
-    process.nextTick(test.end)
   }))
 })
 

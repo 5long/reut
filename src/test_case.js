@@ -39,6 +39,7 @@ util.def(TestCase.prototype, {
     var err
     this.emit("start")
     this._callback = cb
+    if (!this._timeoutHandler) this.timeout = 1
     try {this._action.call(null, this)}
     catch (err) {this._doEnd(err)}
   }
@@ -48,17 +49,7 @@ util.def(TestCase.prototype, {
    */
 , set timeout(ms) {
     this._clearTimeout()
-    this._timeoutHandler = setTimeout(function() {
-      var msg = [ "Test"
-                , this.desc
-                , "doesn't end in"
-                , ms
-                , "ms"
-                ].join(" ")
-        , err = Error(msg)
-      this.emit("error", err)
-      this._doEnd(err)
-    }.bind(this), ms || 0)
+    this._timeoutHandler = setTimeout(this.end, ms || 0)
   }
 , cb: function Self(fn, msg) {
     var executed = false
