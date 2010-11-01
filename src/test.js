@@ -58,17 +58,17 @@ util.def(Test.prototype, {
     this.emit("notice", msg)
   }
 , cb: function Self(fn, msg) {
-    var executed = false
-      , self = this
-      // Hacky and incomplete, but it's the best I can do.
-      , err = new AssertionError({
-          message: msg
-        , expected: fn
-        , actual: "not called"
-        , operator: "()"
-        , stackStartFunction: Self
-        })
-
+    // Hacky and incomplete, but it's the best I can do.
+    var err = prepareError(fn, "not called", msg, "()", Self)
+    return this._ensureExecute(fn, msg, err)
+  }
+, emits: function Self(source, type, fn, msg) {
+    var err = prepareError(source, type, msg, "not emitted", Self)
+    source.on(type, this._ensureExecute(fn, msg, err))
+  }
+, _ensureExecute: function(fn, msg, err) {
+    var self = this
+      , executed = false
     this.on("_beforeEnd", function() {
       if (!executed) this._log(false, msg, err)
     })
@@ -77,9 +77,6 @@ util.def(Test.prototype, {
       self._log(true, msg)
       fn && fn.apply(this, arguments)
     }
-  }
-, emits: function Self(source, type, fn, msg) {
-    source.on(type, this.cb(fn, msg))
   }
 , _clearTimeout: function() {
     if (this._timeoutHandler) clearTimeout(this._timeoutHandler)
@@ -114,5 +111,15 @@ util.def(Test.prototype, {
     this.emit("assert", result)
   }
 })
+
+function prepareError(expected, actual, msg, operator, stackTop) {
+  return new AssertionError({
+    message: msg
+  , expected: expected
+  , actual: actual
+  , operator: operator
+  , stackStartFunction: stackTop
+  })
+}
 
 module.exports = Test
