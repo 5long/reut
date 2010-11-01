@@ -8,14 +8,14 @@ read through this section before you begin.
 A test consists of exactly _one_ test function, which is called `action`.
 The test object implemented following interfaces:
 
-There's no test case in reut.
-
 * Assertion interface, including methods from native `assert` module as
   well as extended assertion methods. This tends to be used for writing
   tests
 * Test controlling interface, which controls the running process of the
   test. This tends to be used as asynchronous test helpers.
 * An evented interface for reporters.
+
+There's no test case in reut.
 
 ### Action
 
@@ -72,7 +72,7 @@ Example:
 
 ### (Setter) test.timeout
 
-`test.timeout = 100` is roughly equivalent to:
+`test.timeout = 100` is exactly equivalent to:
 
     setTimeout(function(){
       test.end()
