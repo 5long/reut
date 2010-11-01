@@ -3,8 +3,9 @@ var util = require("./util")
   , AssertionError = assert.AssertionError
   , EventEmitter = require("events").EventEmitter
   , supportedAsserts = ("ok equal notEqual deepEqual notDeepEqual"
-      + " strictEqual notStrictEqual throws doesNotThrow"
-      + " instanceOf typeOf length match include cb in emits").split(" ")
+    + " strictEqual notStrictEqual throws doesNotThrow"
+    + " instanceOf typeOf length match include cb in emits"
+    ).split(" ")
 
 function Test(desc, action) {
   if (arguments.length < 2) throw TypeError("Wrong number of arguments")
@@ -52,7 +53,7 @@ util.def(Test.prototype, {
    */
 , set timeout(ms) {
     this._clearTimeout()
-    this._timeoutHandler = setTimeout(this.end, ms || 0)
+    this._timeoutHandler = setTimeout(this.end, ms)
   }
 , notice: function(msg) {
     this.emit("notice", msg)
@@ -91,9 +92,7 @@ util.def(Test.prototype, {
     var result = this._report()
     this._clearTimeout()
     this.emit("end", result)
-    process.nextTick(function() {
-      this._callback(err, result)
-    }.bind(this))
+    util.defer(this._callback, [err, result])
   }
 , _report: function() {
     var results = this._results.slice()
@@ -106,7 +105,6 @@ util.def(Test.prototype, {
 , _log: function(passed, msg, err) {
     var result = err ? err : {message: msg}
     result.passed = passed
-
     this._results.push(result)
     this.emit("assert", result)
   }

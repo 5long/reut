@@ -39,11 +39,11 @@ util.async = {
       err = err instanceof Error ? err : null
       cb && cb(err, results)
     })
-    defer(null, chainIter, [actions, []])
+    defer(chainIter, [actions, []])
   }
 , map: function(array, action, cb) {
     var array = array.slice()
-    defer(null, mapIter, [array, action, [], cb])
+    defer(mapIter, [array, action, [], cb])
   }
 }
 
@@ -78,11 +78,10 @@ function mapIter(array, action, results, cb) {
   }
 }
 
-function defer(context, fn, args) {
-  fn = isFunc(fn) ? fn : context[fn]
+function defer(fn, args) {
   if (!isFunc(fn)) throw TypeError("Not a callable object")
   process.nextTick(function() {
-    fn.apply(context, args)
+    fn.apply(null, args)
   })
 }
 
