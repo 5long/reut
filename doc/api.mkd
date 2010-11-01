@@ -104,13 +104,14 @@ Example:
       test.match(/hi/, "holy shit")
     })
 
-### test.cb(fn[, message])
+### test.cb([fn [, message]])
 
-Make sure function `fn` is called at least once before test ends. Context
-and arguments are passed along to `fn` and you can also write assertions
-within `fn`. This works best together with `test.timeout`.
+Returns a function and make sure it is called at least once before test
+ends.  Context and arguments are passed along to function `fn` so you can
+also write assertions within `fn`. This works best together with
+`test.timeout`.
 
-Failed or not, this method counts as one assertion in report.
+Each time the returned function is called counts as one passed assertion.
 
 Example:
 
