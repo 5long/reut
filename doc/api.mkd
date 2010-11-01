@@ -144,6 +144,12 @@ Notice the broken snippet below:
       })
     })
 
+### test.emits(source, type, [fn [, message]])
+
+This is roughly equivalent to:
+
+    source.on(type, test.cb([fn [, message]]))
+
 ## Command Line Runner
 
 reut provides a command line runner `reut`. It loads all arguments as test
