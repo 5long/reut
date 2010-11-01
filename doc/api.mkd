@@ -101,6 +101,9 @@ Example:
       test.length([], 0)
       test.length("goofy", 5)
 
+      test.in(1, ["o", "k"])
+      test.in("foo", {foo: "here"})
+
       test.match(/hi/, "holy shit")
     })
 

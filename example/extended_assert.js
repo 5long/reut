@@ -8,4 +8,5 @@ reut.test("Cuz CommonJS is slow at evolving", function(assert) {
   assert.instanceOf({}, Object)
   assert.typeOf({}, "number", "This should fail")
   assert.match("blah", /ah/)
+  assert.in(0, ["huh?"])
 })

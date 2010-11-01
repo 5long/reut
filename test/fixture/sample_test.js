@@ -17,6 +17,8 @@ var t = new Test("a simple one", function(test) {
   test.throws(function() {
     return somethingUndefined
   }, ReferenceError)
+  test.in("foo", {fo: 2})
+  test.in(0, ["yep"])
 })
 
 module.exports = {
@@ -24,8 +26,8 @@ module.exports = {
 , testDesc: "a simple one"
 , msg: msg
 , num: {
-    all: 6
-  , passed: 4
-  , failed: 2
+    all: 8
+  , passed: 5
+  , failed: 3
   }
 }
