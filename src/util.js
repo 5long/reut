@@ -1,5 +1,4 @@
 var makeArray = Function.prototype.call.bind(Array.prototype.slice)
-  , noop = Function()
 
 var util = module.exports = {
   makeArray: makeArray
@@ -26,12 +25,10 @@ var util = module.exports = {
       Object.defineProperty(this, prop, pd)
     }, dest)
   }
-, noop: noop
 }
 
 util.async = {
   serial: function(actions, cb) {
-    if (typeof cb == "undefined") cb = noop
     actions = makeArray(actions)
     actions.forEach(function(action) {
       if (typeof action != "function") throw TypeError("An action is not callable")
@@ -40,7 +37,7 @@ util.async = {
     actions.push(function(err) {
       var results = makeArray(arguments, 1).reverse()
       err = err instanceof Error ? err : null
-      cb(err, results)
+      cb && cb(err, results)
     })
     defer(null, chainIter, [actions, []])
   }
@@ -66,14 +63,14 @@ function chainIter(actions, initial) {
 
 function mapIter(array, action, results, cb) {
   if (!array.length) {
-    cb(null, results)
+    cb && cb(null, results)
     return
   }
   action.call(innerCallback, array.shift())
 
   function innerCallback(err, data) {
     if (err) {
-      cb(err, results)
+      cb && cb(err, results)
       return
     }
     results.push(data)

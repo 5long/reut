@@ -1,8 +1,7 @@
 var TestSuite = require("./test_suite")
   , Test = require("./test")
-  , util = require("./util")
+  , async = require("./util").async
   , fs = require("fs")
-  , async = util.async
   , suites = []
 
 // TODO Extract the test runner interface.
@@ -19,7 +18,6 @@ var runner = module.exports = {
   }
 , run: function(opt, cb) {
     if (arguments.length < 2) cb = opt
-    if (typeof cb != "function") cb = util.noop
     var reporters = opt.reporters || []
     async.map(suites, function(suite) {
       reporters.forEach(function(r) {

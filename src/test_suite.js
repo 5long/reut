@@ -10,7 +10,6 @@ util.inherits(TestSuite, EventEmitter)
 
 util.merge(TestSuite.prototype, {
   run: function(cb) {
-    if (typeof cb != "function") cb = util.noop
     var thisSuite = this
     this.emit("start")
 
