@@ -4,6 +4,7 @@ var util = require('./util')
 
 function TestSuite(desc) {
   this.desc = desc
+  this._setupQueue = []
   this._tests = []
 }
 util.inherits(TestSuite, EventEmitter)
@@ -15,18 +16,29 @@ util.merge(TestSuite.prototype, {
       cb = conf
       conf = {}
     }
-    this.emit("start")
+    this._doSetup(conf.fixture, function(err) {
+      if (err) throw err
+      this.emit("start")
 
-    async.map(this._tests, function(t) {
-      thisSuite.emit("yield", t)
-      t.run(conf, this)
-    }, function(err, results) {
-      this.emit("end")
-      cb(err, results)
+      async.map(this._tests, function(t) {
+        thisSuite.emit("yield", t)
+        t.run(conf, this)
+      }, function(err, results) {
+        thisSuite.emit("end")
+        cb(err, results)
+      })
     }.bind(this))
+  }
+, _doSetup: function(fixture, cb) {
+    async.map(this._setupQueue, function(fn) {
+      fn(fixture, this)
+    }, cb)
   }
 , add: function(test) {
     this._tests.push(test)
+  }
+, addSetup: function(fn) {
+    this._setupQueue.push(fn)
   }
 , reportTo: function(reporter) {
     reporter.watch(this)
