@@ -9,13 +9,17 @@ function TestSuite(desc) {
 util.inherits(TestSuite, EventEmitter)
 
 util.merge(TestSuite.prototype, {
-  run: function(cb) {
+  run: function(conf, cb) {
     var thisSuite = this
+    if (util.isFunc(conf)) {
+      cb = conf
+      conf = {}
+    }
     this.emit("start")
 
     async.map(this._tests, function(t) {
       thisSuite.emit("yield", t)
-      t.run(this)
+      t.run(conf, this)
     }, function(err, results) {
       this.emit("end")
       cb(err, results)

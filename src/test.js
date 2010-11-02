@@ -39,12 +39,12 @@ util.def(Test.prototype, {
   /*
    * Supposed to be called by test runner.
    */
-  run: function(cb) {
+  run: function(conf, cb) {
     var err
     this.emit("start")
-    this._callback = cb
+    this._callback = util.isFunc(conf) ? conf : cb
     if (!this._timeoutHandler) this.timeout = 1
-    try {this._action.call(null, this)}
+    try {this._action.call(null, this, conf.fixture || {})}
     catch (err) {this._doEnd(err)}
   }
   /*

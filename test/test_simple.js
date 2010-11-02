@@ -21,9 +21,10 @@ simpleTest.on("notice", function(notice) {
   assert.equal(notice, msg.notice)
 })
 
-var asyncTest = new Test("an async one", function(test) {
+var asyncTest = new Test("an async one", function(test, fixture) {
   remainingCallbacks--
   test.timeout = 5
+  test.deepEqual(fixture, {})
   someEventSource.on("launch", test.cb(function(num) {
     remainingCallbacks--
     test.equal(num, num, "But it's NaN!")
@@ -65,10 +66,10 @@ simpleTest.run(function(err, report) {
   assert.deepEqual(resultsByEvent, report.all)
 })
 
-asyncTest.run(function(err, result) {
+asyncTest.run({fixture:{}}, function(err, result) {
   assert.ifError(err)
   remainingCallbacks--
-  assert.equal(result.all.length, 2)
+  assert.equal(result.all.length, 3)
 })
 
 setTimeout(function() {
