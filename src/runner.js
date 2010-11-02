@@ -1,4 +1,5 @@
 var TestSuite = require("./test_suite")
+  , SuiteMonad = require("./suite_monad")
   , Test = require("./test")
   , async = require("./util").async
   , fs = require("fs")
@@ -8,13 +9,12 @@ var TestSuite = require("./test_suite")
 var runner = module.exports = {
   suite: function(desc) {
     var suite = new TestSuite(desc)
+      , monad = new SuiteMonad(suite)
     suites.push(suite)
+    return monad
   }
 , test: function(desc, action) {
-    if (arguments.length < 2) throw TypeError("Wrong number of arguments")
-    if (!suites.length) runner.suite("Anonymous test suite")
-    var suite = suites[suites.length - 1]
-    suite.add(new Test(desc, action))
+    return runner.suite("Anonymous test suite").test(desc, action)
   }
 , run: function(opt, cb) {
     if (arguments.length < 2) cb = opt
