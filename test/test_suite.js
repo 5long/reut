@@ -42,7 +42,7 @@ theSuite.on("end", function() {
   remainingCallbacks--
 })
 
-theSuite.run({fixture:{}}, function(err, report) {
+theSuite.run(function(err, report) {
   assert.ifError(err)
   remainingCallbacks--
   assert.equal(report.length, 1)

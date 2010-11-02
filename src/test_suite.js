@@ -14,7 +14,7 @@ util.merge(TestSuite.prototype, {
     var thisSuite = this
     if (util.isFunc(conf)) {
       cb = conf
-      conf = {}
+      conf = {fixture: {}}
     }
     this._doSetup(conf.fixture, function(err) {
       if (err) throw err
