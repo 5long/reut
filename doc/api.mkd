@@ -154,7 +154,7 @@ Example:
       test.in(1, ["o", "k"])
       test.in("foo", {foo: "here"})
 
-      test.match(/hi/, "holy shit")
+      test.match("holy shit", /hi/)
     })
 
 ### test.cb([fn [, message]])
@@ -198,7 +198,7 @@ Notice the broken snippet below:
 
 This is roughly equivalent to:
 
-    source.on(type, test.cb([fn [, message]]))
+    source.on(type, test.cb(fn, message))
 
 ## Command Line Runner
 

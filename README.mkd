@@ -1,29 +1,61 @@
 # REimplementing Unit Test
 
-Simply another unit test framework for node.js.
+Simply another unit test framework for [node.js](http://nodejs.org)
 
 ## Design
 
-* QUnit-like API
-* Doesn't force you to use a flow control pattern
-* But try to support async tests
-* Does a little bit magic but not too much
-* Keep a \`right' design internally
+* Tries to support async tests
+* Saves typing
+* No scope or object shall be cluttered
+* __NO__ huge object literals or 7-level indentation
+* Keeps a "right" design internally (which you won't see)
+
+## Features
+
+### Implemented
+
+* Extended assertion method
+* Ensure callback's called and event's fired
+* Set timeout for tests
+* A better-than-nothing command line test runner
+* setup support
+
+### Upcoming
+
+* teardown support
+* Suite-wise setup/teardown (startup and shutdown would be good names)
+* Nested test suites
+
+### (Not So) Near Future
+
+* Colored output, web runner...
+* Watch mode?
+* Tagged tests and/or suites
+* Custom running policy for skipping/picking tests
+* Custom test result reporter (after the internal API stablized)
+* Any crazy idea(s)
 
 ## Installation
 
+By using [npm](http://npmjs.org):
+
     $ npm install reut
+
+Install from repo:
+
+    $ cp -r src ~/.node_libraries/reut
+    # Assuming ~/bin is in your $PATH
+    $ ln -s ~/.node_libraries/reut/bin/cli.js ~/bin/reut
 
 ## Usage
 
     $ cat <<EOF >hello.js
     var reut = require("reut")
-    reut.suite("Say hello!")
-    reut.test("Chinese", function(test) {
+    reut.test("Say hello in Chinese!", function(test) {
       test.ok(true, "你好")
     })
     EOF
     # And here we go
     $ reut hello.js
 
-See `doc/api.mkd` for more.
+Document doc/api.mkd sucks. See example/\* instead.
