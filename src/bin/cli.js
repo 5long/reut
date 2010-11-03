@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-var runner = require("./src/runner")
-  , util = require("./src/util")
+var runner = require("../runner")
+  , util = require("../util")
   , async = util.async
   , path = require("path")
-  , reporterMod = require("./src/reporter")
+  , reporterMod = require("../reporter")
   , reporters = [ new reporterMod.Failure()
                 , new reporterMod.Summary()
                 , new reporterMod.Error()
