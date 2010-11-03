@@ -27,36 +27,86 @@ A test suite is a collection of tests.
 
 Within one single test suite, tests are run serially.
 
-## Module `reut`
+## Module `reut` and SuiteMonad
 
-Module `reut` is used for defining test suites and tests.
+While using reut you never directly talk to test suites and tests (i.e., no
+`new TestSuite()` or alike).
+
+SuiteMonad is the method chaining interface for defining test suites and
+tests.
+
+The `reut` module provides functions to create SuiteMonad so you can start
+writing tests.
 
 ### reut.suite(name)
 
-Create a test suite. Also makes the following tests belong to this test
-suite until another `reut.suite` is called.
+Create a test suite and returns the corresponding test suite monad.
 
 Example:
 
     var reut = require("reut")
-    reut.suite("You are collected")
-    // And the following tests belong to this suite
+    reut.suite("Chain starts")
+      .setup( ... )
+      .setup( ... )
+      .test( ... )
+      .setup( ... )
+      .test( ... )
 
 ### reut.test(desc, action)
 
-Define a test. The test object would be passed as the 1st parameter to the
-action function.
+Define a test and also create an anonymous test suite to contain the test.
+Handy when you don't really care about the suite's name.
 
 Example:
 
     var reut = require("reut")
-    // If it's the first time reut.test gets called,
-    // reut automatically creates an anonymous test suite.
     reut.test("A sample test", function(test) {
       // Test code goes here.
     })
+      // Since there's an anonymous test suite you can also provide setup.
+      .setup( ... )
+      // And even add more tests
+      .test( ... )
 
-## Controlling Interface
+### suiteMonad.setup(action)
+
+Define one setup function for the test suite.
+
+Example:
+
+    var reut = require("reut")
+      , fs = require("fs")
+    reut.suite("Multiple setup supported")
+      .setup(function(fixture, done) {
+        fixture.message = "Take this."
+        done()
+      })
+      .setup(function(fixture, done) {
+        fs.stat("/", function(err, stat){
+          fixture.stat = stat
+          done()
+        })
+      })
+
+### suiteMonad.test(desc, action)
+
+Add a test to the suite. Tests always run after all the setups finish.
+
+The test object and fixture object are passed to the test action.
+
+Example:
+
+    var reut = require("reut")
+    reut.suite("Collecting tests")
+      .test("A simple test", function(test, fixture) {
+        test.deepEqual(fixture, {foo: "bar"})
+      })
+      .setup(function(fixture, done){
+        fixture.foo = "bar"
+        done()
+      })
+
+## Controlling Interface of Test
 
 ### test.end
 
@@ -84,7 +134,7 @@ _NOTICE_: The default timeout for a test is only _1ms_ so it works like a
 synchronous test. Always declare a timeout long enough for your
 asynchronous test.
 
-## Assertion Interface
+## Assertion Interface of Test
 
 Example:
 
