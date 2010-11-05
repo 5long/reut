@@ -41,4 +41,14 @@ module.exports = util.merge(eA, {
     }
   }
 
+, is: function(actual, expected, msg) {
+    if (actual === expected) return
+    fail(actual, expected, msg, "===", eA.is)
+  }
+
+, isnt: function(actual, expected, msg) {
+    if (actual !== expected) return
+    fail(actual, expected, msg, "!==", eA.isnt)
+  }
+
 })

@@ -32,6 +32,9 @@ reut.suite("A suite to contain 'em all")
   test.in(1, ["o", "k"])
   // Setup for fixture.stat is defined below
   test.in("stat", fixture)
+
+  test.is("0", 0, "Expected to fail: alias for strictEqual")
+  test.isnt("0", 0)
 })
 // Async setup
 .setup(function(fixture, done) {

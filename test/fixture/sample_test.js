@@ -19,6 +19,8 @@ var t = new Test("a simple one", function(test) {
   }, ReferenceError)
   test.in("foo", {fo: 2})
   test.in(0, ["yep"])
+  test.is(42, "42", "fail")
+  test.isnt(0/0, NaN)
 })
 
 module.exports = {
@@ -26,8 +28,8 @@ module.exports = {
 , testDesc: "a simple one"
 , msg: msg
 , num: {
-    all: 8
-  , passed: 5
-  , failed: 3
+    all: 10
+  , passed: 6
+  , failed: 4
   }
 }
