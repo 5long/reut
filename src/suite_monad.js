@@ -18,6 +18,14 @@ util.merge(SuiteMonad.prototype, {
     this._suite.addTeardown(fn)
     return this
   }
+, startup: function(fn) {
+    this._suite.addStartup(fn)
+    return this
+  }
+, shutdown: function(fn) {
+    this._suite.addShutdown(fn)
+    return this
+  }
 })
 
 module.exports = SuiteMonad

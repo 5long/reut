@@ -6,6 +6,8 @@ function TestSuite(desc) {
   this.desc = desc
   this._setupQueue = []
   this._teardownQueue = []
+  this._startupQueue = []
+  this._shutdownQueue = []
   this._tests = []
 }
 util.inherits(TestSuite, EventEmitter)
@@ -19,19 +21,18 @@ util.merge(TestSuite.prototype, {
     }
     async.chain(
       function setup() {
-        thisSuite._doSetup(conf.fixture, this)
+        thisSuite._doStartup(conf.fixture, this)
       }
     , function test(err) {
         if (err) throw err
         thisSuite.emit("start")
         async.map(thisSuite._tests, function(t) {
-          thisSuite.emit("yield", t)
-          t.run(conf, this)
+          thisSuite._runTest(t, conf, this)
         }, this)
       }
     , function teardown(err, results) {
         if (err) return this(err, [])
-        thisSuite._doTeardown(conf.fixture, this)
+        thisSuite._doShutdown(conf.fixture, this)
       }
     , function end(err, dummy, results) {
         thisSuite.emit("end")
@@ -48,6 +49,35 @@ util.merge(TestSuite.prototype, {
     async.paraMap(this._teardownQueue, function(fn) {
       fn(fixture, this)
     }, cb)
+  }
+, _doStartup: function(fixture, cb) {
+    async.paraMap(this._startupQueue, function(fn) {
+      fn(fixture, this)
+    }, cb)
+  }
+, _doShutdown: function(fixture, cb) {
+    async.paraMap(this._startupQueue, function(fn) {
+      fn(fixture, this)
+    }, cb)
+  }
+, _runTest: function(t, conf, cb) {
+    var thisSuite = this
+    async.chain(
+      function setup() {
+        thisSuite._doSetup(conf.fixture, this)
+      }
+    , function run(err) {
+        thisSuite.emit("yield", t)
+        t.run(conf, this)
+      }
+    , function(err, result) {
+        if (err) return this(err, result)
+        thisSuite._doTeardown(conf.fixture, this)
+      }
+    , function(err, dummy, result) {
+        cb(err, result)
+      }
+    )
   }
 , add: function(test) {
     this._tests.push(test)
