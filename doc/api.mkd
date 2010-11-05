@@ -92,6 +92,8 @@ Example:
 
 Needless to say.
 
+Note that all setup and teardown functions are run parallelly.
+
 ### suiteMonad.test(desc, action)
 
 Add a test to the suite. Tests always run after all the setups finish.

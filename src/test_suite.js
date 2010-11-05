@@ -40,12 +40,12 @@ util.merge(TestSuite.prototype, {
     )
   }
 , _doSetup: function(fixture, cb) {
-    async.map(this._setupQueue, function(fn) {
+    async.paraMap(this._setupQueue, function(fn) {
       fn(fixture, this)
     }, cb)
   }
 , _doTeardown: function(fixture, cb) {
-    async.map(this._teardownQueue, function(fn) {
+    async.paraMap(this._teardownQueue, function(fn) {
       fn(fixture, this)
     }, cb)
   }

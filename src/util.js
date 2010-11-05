@@ -45,6 +45,21 @@ util.async = {
     var array = array.slice()
     defer(mapIter, [array, action, [], cb])
   }
+, paraMap: function(array, action, cb) {
+    if (!array.length) return cb && cb(null, [])
+    var results = []
+      , latestErr = null
+      , num = 0
+    array.map(function(val, key) {
+      num++
+      function innerCallback(err, data) {
+        latestErr = err
+        results[key] = data || err
+        if (!--num) cb && cb(latestErr, results)
+      }
+      action.call(innerCallback, val)
+    })
+  }
 , chain: function() {
     var actions = makeArray(arguments)
     process.nextTick(function() {
