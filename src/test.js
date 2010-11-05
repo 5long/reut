@@ -4,7 +4,7 @@ var util = require("./util")
   , EventEmitter = require("events").EventEmitter
   , supportedAsserts = ("ok equal notEqual deepEqual notDeepEqual"
     + " strictEqual notStrictEqual throws doesNotThrow"
-    + " instanceOf typeOf length match include cb in emits is isnt"
+    + " instanceOf typeOf length match include cb in emits is isnt empty"
     ).split(" ")
 
 function Test(desc, action) {

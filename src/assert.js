@@ -51,4 +51,11 @@ module.exports = util.merge(eA, {
     fail(actual, expected, msg, "!==", eA.isnt)
   }
 
+, empty: function(val, msg) {
+    if (val === ""
+        || (val instanceof Array && !val.length)
+        || (val instanceof Object && !Object.keys(val).length)) return
+    fail(val, 0, msg, "length", eA.empty)
+  }
+
 })
