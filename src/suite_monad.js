@@ -14,6 +14,10 @@ util.merge(SuiteMonad.prototype, {
     this._suite.add(new Test(desc, action))
     return this
   }
+, teardown: function(fn) {
+    this._suite.addTeardown(fn)
+    return this
+  }
 })
 
 module.exports = SuiteMonad

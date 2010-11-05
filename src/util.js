@@ -45,6 +45,12 @@ util.async = {
     var array = array.slice()
     defer(mapIter, [array, action, [], cb])
   }
+, chain: function() {
+    var actions = makeArray(arguments)
+    process.nextTick(function() {
+      chainIter(actions, [])
+    })
+  }
 }
 
 function chainIter(actions, initial) {

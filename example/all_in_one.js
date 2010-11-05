@@ -7,6 +7,10 @@ reut.suite("A suite to contain 'em all")
   fixture.answer = 42
   done()
 })
+.teardown(function(fixture, done) {
+  delete fixture.answer
+  done()
+})
 .test("Native assert methods", function(test, fixture) {
   test.ok(!test.fail, "Not provided")
   test.ok(!test.ifError, "Others are ok to use")
@@ -42,6 +46,10 @@ reut.suite("A suite to contain 'em all")
     fixture.stat = stat
     done()
   })
+})
+.teardown(function(fixture, done) {
+  delete fixture.stat
+  done()
 })
 .test("Something async", function(test, fixture) {
   var boy = new EE()

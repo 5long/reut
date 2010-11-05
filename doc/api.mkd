@@ -88,6 +88,10 @@ Example:
         })
       })
 
+### suiteMonad.teardown(action)
+
+Needless to say.
+
 ### suiteMonad.test(desc, action)
 
 Add a test to the suite. Tests always run after all the setups finish.

@@ -2,7 +2,7 @@ var reut = require('../src')
   , TestSuite = reut.TestSuite
   , Test = reut.Test
   , assert = require('assert')
-  , remainingCallbacks = 5
+  , remainingCallbacks = 7
   , testDesc = "a test"
   , spyReporter = {
       watch: function() {
@@ -25,6 +25,18 @@ theSuite.add(new Test(testDesc, function(test, fixture) {
 
 theSuite.addSetup(function(fixture, done) {
   fixture.foo = "foo"
+  done()
+})
+
+theSuite.addTeardown(function(fixture, done) {
+  remainingCallbacks--
+  delete fixture.foo
+  done()
+})
+
+theSuite.addTeardown(function(fixture, done) {
+  remainingCallbacks--
+  assert.ok(!fixture.foo)
   done()
 })
 
