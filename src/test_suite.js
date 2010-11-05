@@ -40,26 +40,6 @@ util.merge(TestSuite.prototype, {
       }
     )
   }
-, _doSetup: function(fixture, cb) {
-    async.paraMap(this._setupQueue, function(fn) {
-      fn(fixture, this)
-    }, cb)
-  }
-, _doTeardown: function(fixture, cb) {
-    async.paraMap(this._teardownQueue, function(fn) {
-      fn(fixture, this)
-    }, cb)
-  }
-, _doStartup: function(fixture, cb) {
-    async.paraMap(this._startupQueue, function(fn) {
-      fn(fixture, this)
-    }, cb)
-  }
-, _doShutdown: function(fixture, cb) {
-    async.paraMap(this._startupQueue, function(fn) {
-      fn(fixture, this)
-    }, cb)
-  }
 , _runTest: function(t, conf, cb) {
     var thisSuite = this
     async.chain(
@@ -82,15 +62,28 @@ util.merge(TestSuite.prototype, {
 , add: function(test) {
     this._tests.push(test)
   }
-, addSetup: function(fn) {
-    this._setupQueue.push(fn)
-  }
-, addTeardown: function(fn) {
-    this._teardownQueue.push(fn)
-  }
 , reportTo: function(reporter) {
     reporter.watch(this)
   }
 })
+
+"setup teardown startup shutdown".split(" ")
+.forEach(boundAsyncQueue, TestSuite.prototype)
+
+function boundAsyncQueue(key) {
+  var ucFirst = util.ucFirst(key)
+    , keyExecute = "_do" + ucFirst
+    , keyQueue = "_" + key + "Queue"
+    , keyAdd = "add" + ucFirst
+
+  this[keyExecute] = function(fixture, cb) {
+    async.paraMap(this[keyQueue], function(fn) {
+      fn(fixture, this)
+    }, cb)
+  }
+  this[keyAdd] = function(fn) {
+    this[keyQueue].push(fn)
+  }
+}
 
 module.exports = TestSuite

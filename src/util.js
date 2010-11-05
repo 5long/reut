@@ -25,6 +25,11 @@ var util = module.exports = {
       Object.defineProperty(this, prop, pd)
     }, dest)
   }
+, ucFirst: function(str) {
+    return str.replace(/^[a-z]/, function(c) {
+      return c.toUpperCase()
+    })
+  }
 }
 
 util.async = {
