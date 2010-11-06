@@ -29,7 +29,7 @@ supportedAsserts.forEach(function(name) {
       assert[name].apply(assert, arguments)
       this._log(true, msg)
     } catch (e) {
-      if (!(e instanceof assert.AssertionError)) this._doEnd(e)
+      if (!(e instanceof AssertionError)) this._doEnd(e)
       e.stackStartFunction = Self
       this._log(false, msg, new AssertionError(e))
     }

@@ -1,5 +1,4 @@
 var reut = require("../src")
-  , enum = require("../src/util").enum
   , Test = reut.Test
   , assert = require("assert")
 

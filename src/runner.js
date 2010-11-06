@@ -2,7 +2,6 @@ var TestSuite = require("./test_suite")
   , SuiteMonad = require("./suite_monad")
   , Test = require("./test")
   , async = require("./util").async
-  , fs = require("fs")
   , suites = []
 
 // TODO Extract the test runner interface.
@@ -19,7 +18,7 @@ var runner = module.exports = {
 , run: function(opt, cb) {
     if (arguments.length < 2) cb = opt
     var reporters = opt.reporters || []
-    async.map(suites, function(suite) {
+    async.paraMap(suites, function(suite) {
       reporters.forEach(function(r) {
         suite.reportTo(r)
       })
