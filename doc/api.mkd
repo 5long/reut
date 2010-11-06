@@ -68,6 +68,14 @@ Example:
       // And even add more tests
       .test( ... )
 
+### reut.run()
+
+Exposed for writing self-run module.
+
+    var reut = require("reut")
+    // nextTick it so this line stays at top.
+    if (module == require.main) process.nextTick(reut.run)
+
 ### suiteMonad.setup(action)
 
 Define one setup function for the test suite.
@@ -93,6 +101,11 @@ Example:
 Needless to say.
 
 Note that all setup and teardown functions are run parallelly.
+
+### suiteMonad.startup(action), suiteMonad.shutdown(action)
+
+Stolen from Ruby Test::Unit 2.0. They are run per suite instead of per
+test. And reut supports multiple asynchronous startup/shutdown.
 
 ### suiteMonad.test(desc, action)
 
