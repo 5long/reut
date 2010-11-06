@@ -20,6 +20,7 @@ dummySuite.run(function(err) {
 })
 
 process.on("exit", function() {
+  process.emit("_reutTestEnd")
   var output = spyWritable.input[0]
     , num = sampleTest.num
   assert.notEqual(output.indexOf(num.all), -1)

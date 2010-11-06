@@ -6,7 +6,7 @@ function SummaryReporter(writable) {
   var self = this
   this._output = writable || process.stdout
   this._result = {all: [], passed: [], failed: []}
-  process.on("exit", function() {
+  process.on("_reutTestEnd", function() {
     self._report()
   })
 }

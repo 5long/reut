@@ -3,6 +3,12 @@ var TestSuite = require("./test_suite")
   , Test = require("./test")
   , async = require("./util").async
   , suites = []
+  , reporterMod = require("./reporter")
+  , defaultReporters = [
+      new reporterMod.Failure()
+    , new reporterMod.Summary()
+    , new reporterMod.Error()
+    ]
 
 // TODO Extract the test runner interface.
 var runner = module.exports = {
@@ -17,13 +23,16 @@ var runner = module.exports = {
   }
 , run: function(opt, cb) {
     if (arguments.length < 2) cb = opt
-    var reporters = opt.reporters || []
+    var reporters = opt.reporters || defaultReporters
     async.paraMap(suites, function(suite) {
       reporters.forEach(function(r) {
         suite.reportTo(r)
       })
       suite.run(this)
-    }, cb)
+    }, function(err, result) {
+      process.emit("_reutTestEnd")
+      cb.apply(this, arguments)
+    })
   }
 , _suites: suites
 }
