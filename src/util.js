@@ -55,12 +55,14 @@ util.async = {
     var results = []
       , latestErr = null
       , num = 0
-    array.map(function(val, key) {
+    array.forEach(function(val, key) {
       num++
       function innerCallback(err, data) {
         latestErr = err
         results[key] = data || err
-        if (!--num) cb && cb(latestErr, results)
+        defer(function() {
+          if (!--num) cb && cb(latestErr, results)
+        })
       }
       action.call(innerCallback, val)
     })

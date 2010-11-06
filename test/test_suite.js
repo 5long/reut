@@ -16,7 +16,7 @@ var theSuite = new TestSuite("no desc")
 theSuite.reportTo(spyReporter)
 theSuite.add(new Test(testDesc, function(test, fixture) {
   test.timeout = 10
-  test.deepEqual(fixture, {foo: "foo"})
+  test.deepEqual(fixture, {foo: "foo", bar: "bar"})
   setTimeout(function() {
     test.ok(1, "I'm done")
     test.end()
@@ -28,15 +28,22 @@ theSuite.addSetup(function(fixture, done) {
   done()
 })
 
+theSuite.addSetup(function(fixture, done) {
+  setTimeout(function() {
+    fixture.bar = "bar"
+    done()
+  }, 10)
+})
+
 theSuite.addTeardown(function(fixture, done) {
   remainingCallbacks--
   delete fixture.foo
+  delete fixture.bar
   done()
 })
 
 theSuite.addTeardown(function(fixture, done) {
   remainingCallbacks--
-  assert.ok(!fixture.foo)
   done()
 })
 
