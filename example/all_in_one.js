@@ -2,6 +2,8 @@ var reut = require("reut")
   , EE = require("events").EventEmitter
   , fs = require("fs")
 
+if (module == require.main) process.nextTick(reut.run)
+
 reut.suite("A suite to contain 'em all")
 .setup(function(fixture, done) {
   fixture.answer = 42

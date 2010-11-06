@@ -23,7 +23,7 @@ var runner = module.exports = {
   }
 , run: function(opt, cb) {
     if (arguments.length < 2) cb = opt
-    var reporters = opt.reporters || defaultReporters
+    var reporters = opt && opt.reporters || defaultReporters
     async.paraMap(suites, function(suite) {
       reporters.forEach(function(r) {
         suite.reportTo(r)
@@ -31,7 +31,7 @@ var runner = module.exports = {
       suite.run(this)
     }, function(err, result) {
       process.emit("_reutTestEnd")
-      cb.apply(this, arguments)
+      cb && cb.apply(this, arguments)
     })
   }
 , _suites: suites
