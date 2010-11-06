@@ -22,7 +22,7 @@ Test.supportedAsserts = supportedAsserts.reduce(function(set, key) {
 
 supportedAsserts.forEach(function(name) {
   if (!(name in assert)) return
-  Test.prototype[name] = function() {
+  Test.prototype[name] = function Self() {
     var e, posForMsg = assert[name].length - 1
       , msg = arguments[posForMsg]
     try {
@@ -30,7 +30,8 @@ supportedAsserts.forEach(function(name) {
       this._log(true, msg)
     } catch (e) {
       if (!(e instanceof assert.AssertionError)) this._doEnd(e)
-      this._log(false, msg, e)
+      e.stackStartFunction = Self
+      this._log(false, msg, new AssertionError(e))
     }
   }
 })

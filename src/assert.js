@@ -37,7 +37,7 @@ module.exports = util.merge(eA, {
 
 , in: function(key, obj, msg) {
     if (!(key in obj)) {
-      fail(key, obj, msg, "in", eA.include)
+      fail(key, obj, msg, "in", eA.in)
     }
   }
 
