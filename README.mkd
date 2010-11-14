@@ -18,17 +18,14 @@ Simply another unit test framework for [node.js](http://nodejs.org)
 * Ensure callback's called and event's fired
 * Set timeout for tests
 * A better-than-nothing command line test runner
-* setup support
-
-### Upcoming
-
-* teardown support
-* Suite-wise setup/teardown (startup and shutdown would be good names)
-* Nested test suites
+* Multiple asynchronous setup/teardown
+* Suite-wise startup/shutdown (multiple & async, too)
 
 ### (Not So) Near Future
 
-* Colored output, web runner...
+* Simple mocking support
+* Colorful reporting
+* Nested test suites
 * Watch mode?
 * Tagged tests and/or suites
 * Custom running policy for skipping/picking tests
