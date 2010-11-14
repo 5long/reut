@@ -77,7 +77,7 @@ util.def(Test.prototype, {
     return function() {
       executed = true
       self._log(true, msg)
-      fn && fn.apply(this, arguments)
+      return fn && fn.apply(this, arguments)
     }
   }
 , _clearTimeout: function() {
