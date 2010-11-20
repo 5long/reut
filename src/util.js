@@ -15,7 +15,12 @@ var util = module.exports = {
     return dest
   }
 , inherits: function(klass, super) {
-    klass.prototype = Object.create(super.prototype)
+    klass.prototype = Object.create(super.prototype, {
+      constructor: {
+        value: klass
+      , enumerable: false
+      }
+    })
   }
 , def: function(dest, source) {
     if (arguments.length < 2) throw TypeError("Wrong number of arguments")
