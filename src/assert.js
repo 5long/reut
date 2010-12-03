@@ -53,9 +53,14 @@ module.exports = util.merge(eA, {
 
 , empty: function(val, msg) {
     if (val === ""
-        || (val instanceof Array && !val.length)
-        || (val instanceof Object && !Object.keys(val).length)) return
-    fail(val, 0, msg, "length", eA.empty)
+        || (Array.isArray(val) && !val.length)
+        || (isObject(val) && !Object.keys(val).length)
+    ) return
+    fail(val, 0, msg, ".length !==", eA.empty)
   }
 
 })
+
+function isObject(val) {
+  return Object.prototype.toString.call(val) === "[object Object]"
+}
