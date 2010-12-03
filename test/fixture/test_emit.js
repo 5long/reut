@@ -12,6 +12,10 @@ var asyncTest = new Test(desc, function(assert) {
   }, "This should emit")
   assert.emits(es, "finish")
   assert.emits(es, "nope")
+
+  assert.throws(function() {
+    assert.emit(es, "misSpell")
+  })
 })
 
 process.nextTick(function() {
@@ -28,8 +32,8 @@ module.exports = {
 , timeout: 15
 , msg: msg
 , num: {
-    all: 4
-  , passed: 3
+    all: 5
+  , passed: 4
   , fail: 1
   }
 }

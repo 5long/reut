@@ -36,6 +36,13 @@ supportedAsserts.forEach(function(name) {
   }
 })
 
+Test.events = "assert error notice start end _beforeEnd newListener"
+  .split(" ")
+  .reduce(function(set, key) {
+    set[key] = true
+    return set
+  }, {})
+
 util.def(Test.prototype, {
   /*
    * Supposed to be called by test runner.
@@ -108,6 +115,12 @@ util.def(Test.prototype, {
     result.passed = passed
     this._results.push(result)
     this.emit("assert", result)
+  }
+, emit: function(type) {
+    if (!(type in Test.events)) {
+      throw Error(".emit() is not intended to be called publicly")
+    }
+    return EventEmitter.prototype.emit.apply(this, arguments)
   }
 })
 
