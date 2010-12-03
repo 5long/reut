@@ -67,6 +67,7 @@ util.def(Test.prototype, {
     this.emit("notice", msg)
   }
 , cb: function Self(fn, msg) {
+    fn = fn || util.noop
     // Hacky and incomplete, but it's the best I can do.
     var err = prepareError(fn, "not called", msg, "()", Self)
     return this._ensureExecute(fn, msg, err)

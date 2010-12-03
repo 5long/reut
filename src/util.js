@@ -2,6 +2,7 @@ var makeArray = Function.prototype.call.bind(Array.prototype.slice)
 
 var util = module.exports = {
   makeArray: makeArray
+, noop : function NOOP() {}
 , isFunc: isFunc
 , defer: defer
 , pushAll: Function.prototype.apply.bind(Array.prototype.push)
