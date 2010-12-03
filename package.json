@@ -5,6 +5,7 @@
 , "description": "REimplemented Unit Test for node.js"
 , "engines": {"node": ">=0.1.103"}
 , "homepage": "http://github.com/5long/reut"
+, "keywords": ["test", "testing", "unit test", "TDD"]
 , "licenses":
   [ { "type": "MIT"
     , "url": "http://github.com/5long/reut/raw/master/LISENSE"
@@ -17,5 +18,5 @@
   , "url": "http://github.com/5long/reut.git"
   }
 , "scripts": { "test": "make test-all" }
-, "version": "0.1.1"
+, "version": "0.1.2"
 }
