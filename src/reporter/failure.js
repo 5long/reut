@@ -23,10 +23,9 @@ util.merge(FailureReporter.prototype, {
     this._output.write(this._format(result, t, suite))
   }
 , _format: function(result, t, suite) {
-    // Assuming path seperator is "/"
-    // and the format of stack trace remains.
-    var matched = result.stack.match(/([^\/]+:\d+:\d+)/)
-      , source = matched && matched[1]
+    // Assuming the format of stack trace remains
+    var matched = result.stack.match(/\n\s*at ([^:]+:\d+:\d+)/)
+      , source = matched && matched[1].replace(process.cwd(), ".")
     return [ "Assertion fail at"
            , source
            , result.message
