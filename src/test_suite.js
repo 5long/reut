@@ -82,6 +82,13 @@ function boundAsyncQueue(key) {
     }, cb)
   }
   this[keyAdd] = function(fn) {
+    var oldFn = fn
+    if (fn.length == 1) {
+      fn = function wrapSync(fixture, done) {
+        oldFn.apply(this, arguments)
+        done()
+      }
+    }
     this[keyQueue].push(fn)
   }
 }

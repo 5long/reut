@@ -23,9 +23,8 @@ theSuite.add(new Test(testDesc, function(test, fixture) {
   }, 2)
 }))
 
-theSuite.addSetup(function(fixture, done) {
+theSuite.addSetup(function(fixture) {
   fixture.foo = "foo"
-  done()
 })
 
 theSuite.addSetup(function(fixture, done) {
