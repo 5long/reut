@@ -14,6 +14,7 @@ Simply another unit test framework for [node.js](http://nodejs.org)
 
 ### Implemented
 
+* Infer sync/async test and setup/teardown automatically
 * Extended assertion method
 * Ensure callback's called and event's fired
 * Set timeout for tests
