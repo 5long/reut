@@ -21,6 +21,7 @@ var t = new Test("a simple one", function(test) {
   test.in(0, ["yep"])
   test.is(42, "42", "fail")
   test.isnt(0/0, NaN)
+  test.equal(test.called, test.cb, "an alias")
   test.empty("")
   test.empty([])
   test.empty({})
@@ -31,8 +32,8 @@ module.exports = {
 , testDesc: "a simple one"
 , msg: msg
 , num: {
-    all: 13
-  , passed: 9
+    all: 14
+  , passed: 10
   , failed: 4
   }
 }

@@ -125,6 +125,8 @@ util.def(Test.prototype, {
   }
 })
 
+Test.prototype.called = Test.prototype.cb
+
 function prepareError(expected, actual, msg, operator, stackTop) {
   return new AssertionError({
     message: msg
