@@ -24,7 +24,7 @@ var runner = module.exports = {
 , run: function(opt, cb) {
     if (arguments.length < 2) cb = opt
     var reporters = opt && opt.reporters || defaultReporters
-    async.paraMap(suites, function(suite) {
+    async.map(suites, function(suite) {
       reporters.forEach(function(r) {
         suite.reportTo(r)
       })

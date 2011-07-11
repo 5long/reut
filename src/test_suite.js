@@ -77,7 +77,7 @@ function boundAsyncQueue(key) {
     , keyAdd = "add" + ucFirst
 
   this[keyExecute] = function(fixture, cb) {
-    async.paraMap(this[keyQueue], function(fn) {
+    async.map(this[keyQueue], function(fn) {
       fn(fixture, this)
     }, cb)
   }
