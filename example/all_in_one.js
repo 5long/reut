@@ -5,13 +5,11 @@ var reut = require("reut")
 if (module == require.main) process.nextTick(reut.run)
 
 reut.suite("A suite to contain 'em all")
-.setup(function(fixture, done) {
+.setup(function(fixture) {
   fixture.answer = 42
-  done()
 })
-.teardown(function(fixture, done) {
+.teardown(function(fixture) {
   delete fixture.answer
-  done()
 })
 .test("Native assert methods", function(test, fixture) {
   test.ok(!test.fail, "Not provided")
@@ -49,9 +47,8 @@ reut.suite("A suite to contain 'em all")
     done()
   })
 })
-.teardown(function(fixture, done) {
+.teardown(function(fixture) {
   delete fixture.stat
-  done()
 })
 .test("Something async", function(test, fixture) {
   var boy = new EE()

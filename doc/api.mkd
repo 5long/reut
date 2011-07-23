@@ -85,9 +85,8 @@ Example:
     var reut = require("reut")
       , fs = require("fs")
     reut.suite("Multiple setup supported")
-      .setup(function(fixture, done) {
+      .setup(function(fixture) {
         fixture.message = "Take this."
-        done()
       })
       .setup(function(fixture, done) {
         fs.stat("/", function(err, stat){
@@ -120,9 +119,8 @@ Example:
       .test("A simple test", function(test, fixture) {
         test.deepEqual(fixture, {foo: "bar"})
       })
-      .setup(function(fixture, done){
+      .setup(function(fixture){
         fixture.foo = "bar"
-        done()
       })
 
 ## Controlling Interface of Test
