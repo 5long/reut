@@ -12,8 +12,9 @@ function main() {
     loadAndRun(path.join(cwd, file), this)
   }, function(err) {
     if (err) throw err
-    runner.run({}, function(err) {
+    runner.run({}, function(err, results) {
       if (err) throw err
+      if (hasFailed(results)) process.exit(1)
     })
   })
 }
@@ -22,6 +23,14 @@ function loadAndRun(filename, cb) {
   var modName = filename.replace(/\.(?:js|node)$/, "")
   require(modName)
   cb(null)
+}
+
+function hasFailed(results) {
+  return results.some(function(suiteResult) {
+    return suiteResult.some(function(testResult) {
+      return !!testResult.failed.length
+    })
+  })
 }
 
 main()
