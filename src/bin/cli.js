@@ -3,9 +3,11 @@ var runner = require("../runner")
   , util = require("../util")
   , async = util.async
   , path = require("path")
+  , optimist = require("optimist")
 
 function main() {
-  var files = util.makeArray(process.argv, 2)
+  var args = extractArgs()
+    , files = args._.slice()
     , cwd = process.cwd()
 
   async.map(files, function(file) {
@@ -31,6 +33,13 @@ function hasFailed(results) {
       return !!testResult.failed.length
     })
   })
+}
+
+function extractArgs() {
+  return optimist
+    .demand(1)
+    .usage("Usage: $0 [--] <test file...>")
+    .argv
 }
 
 main()
