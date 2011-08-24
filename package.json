@@ -4,7 +4,7 @@
 , "bin": {"reut": "./src/bin/cli.js"}
 , "description": "REimplemented Unit Test for node.js"
 , "dependencies": { "optimist": "~0.2"}
-, "engines": {"node": ">=0.1.103"}
+, "engines": {"node": ">=0.4.0"}
 , "homepage": "http://github.com/5long/reut"
 , "keywords": ["test", "testing", "unit test", "TDD"]
 , "licenses":

@@ -4,14 +4,14 @@ var runner = require("../runner")
   , async = util.async
   , path = require("path")
   , optimist = require("optimist")
+  , cwd = process.cwd()
 
 function main() {
   var args = extractArgs()
     , files = args._.slice()
-    , cwd = process.cwd()
 
   async.map(files, function(file) {
-    loadAndRun(path.join(cwd, file), this)
+    loadAndRun(file, this)
   }, function(err) {
     if (err) throw err
     runner.run({shuffle: args.shuffle}, function(err, results) {
@@ -22,8 +22,8 @@ function main() {
 }
 
 function loadAndRun(filename, cb) {
-  var modName = filename.replace(/\.(?:js|node)$/, "")
-  require(modName)
+  filename = path.resolve(cwd, filename)
+  require(filename)
   cb(null)
 }
 
