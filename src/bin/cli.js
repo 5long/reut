@@ -39,11 +39,11 @@ function extractArgs() {
   return optimist
     .demand(1)
     .usage("Usage: $0 [options]... [--] <test file...>")
-    .describe("S", "Shuffle tests in each suite.")
-    .boolean("S")
-    .options("S", {
+    .option("S", {
         alias: "shuffle"
       , default: false
+      , type: 'boolean'
+      , desc: "Shuffle tests in each suite."
       })
     .argv
 }
