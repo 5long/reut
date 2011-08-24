@@ -1,7 +1,8 @@
 var TestSuite = require("./test_suite")
   , SuiteMonad = require("./suite_monad")
   , Test = require("./test")
-  , async = require("./util").async
+  , util = require("./util")
+  , async = util.async
   , suites = []
   , reporterMod = require("./reporter")
   , defaultReporters = [
@@ -23,12 +24,13 @@ var runner = module.exports = {
   }
 , run: function(opt, cb) {
     if (arguments.length < 2) cb = opt
+    if (opt.shuffle) suites = util.shuffle(suites)
     var reporters = opt && opt.reporters || defaultReporters
     async.map(suites, function(suite) {
       reporters.forEach(function(r) {
         suite.reportTo(r)
       })
-      suite.run(this)
+      suite.run({shuffle: opt.shuffle}, this)
     }, function(err, result) {
       process.emit("_reutTestEnd")
       cb && cb.apply(this, arguments)

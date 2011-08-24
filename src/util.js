@@ -36,6 +36,12 @@ var util = module.exports = {
       return c.toUpperCase()
     })
   }
+, shuffle: function(ary) {
+    var result = util.makeArray(ary)
+    return result.sort(function(a, b) {
+      return Math.random() - 0.5
+    })
+  }
 }
 
 util.async = {

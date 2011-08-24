@@ -14,7 +14,7 @@ function main() {
     loadAndRun(path.join(cwd, file), this)
   }, function(err) {
     if (err) throw err
-    runner.run({}, function(err, results) {
+    runner.run({shuffle: args.shuffle}, function(err, results) {
       if (err) throw err
       if (hasFailed(results)) process.exit(1)
     })
@@ -38,7 +38,13 @@ function hasFailed(results) {
 function extractArgs() {
   return optimist
     .demand(1)
-    .usage("Usage: $0 [--] <test file...>")
+    .usage("Usage: $0 [options]... [--] <test file...>")
+    .describe("S", "Shuffle tests in each suite.")
+    .boolean("S")
+    .options("S", {
+        alias: "shuffle"
+      , default: false
+      })
     .argv
 }
 

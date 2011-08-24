@@ -17,11 +17,15 @@ util.merge(TestSuite.prototype, {
     var thisSuite = this
     if (util.isFunc(conf)) {
       cb = conf
-      conf = {fixture: {}}
+      conf = {shuffle: false}
     }
+    conf.fixture = conf.fixture || {}
     async.chain(
       function setup() {
         thisSuite._doStartup(conf.fixture, this)
+        if (conf.shuffle) {
+          thisSuite._tests = util.shuffle(thisSuite._tests)
+        }
       }
     , function test(err) {
         if (err) throw err
