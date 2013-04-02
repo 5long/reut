@@ -18,6 +18,9 @@
   { "type": "git"
   , "url": "http://github.com/5long/reut.git"
   }
-, "scripts": { "test": "make test-all" }
-, "version": "0.1.4"
+, "scripts": {
+    "test": "make test-all",
+    "preinstall": "echo This project is dead. See README.mkd for more."
+  }
+, "version": "0.1.5-dead"
 }
